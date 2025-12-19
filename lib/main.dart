@@ -4,11 +4,11 @@ import 'package:project1/db/database.dart';
 import 'package:sqflite/sqflite.dart';
 
 void main() async {
-  //WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   
-  var db = await DBHelp.instance.initDB();
+  await DBHelp.instance.initDB();
   
-  print(db);
+  //print(db);
   runApp(const MainApp());
 }
 

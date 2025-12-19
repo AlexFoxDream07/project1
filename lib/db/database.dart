@@ -17,7 +17,7 @@ class DBHelp{
   Future<Database> initDB() async {
     //_database = await initDB();
 
-    String dbPath = await getDatabasesPath();
+    String dbPath = 'E:\\project1';
     String path = join(dbPath, 'studentManager1.db');
     return await openDatabase(path, version: 1);
   }

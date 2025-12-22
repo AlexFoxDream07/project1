@@ -15,10 +15,13 @@ class DBHelp{
   }
 
   Future<Database> initDB() async {
-    //_database = await initDB();
-
     String dbPath = 'E:\\project1';
     String path = join(dbPath, 'studentManager11.db');
+    try {
+    _database = await openDatabase(path);
+    } catch (e) {
+      print('Ошибка открытия базы данных: $e');
+    } 
     return await openDatabase(path, version: 1);
   }
 }

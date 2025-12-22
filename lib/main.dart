@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project1/tables_screen/student_table.dart';
 import 'package:project1/db/database.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:sqflite/sqflite.dart';
+//import 'package:sqflite/sqflite.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

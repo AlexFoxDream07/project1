@@ -11,16 +11,16 @@ class Students{
   // }
   Map<String, dynamic> toMap(){
     return {
-      'ID' : id,
-      'Full Name' : fullName,
-      'GroupID' : groupId
+      'id' : id,
+      'fullName' : fullName,
+      'groupId' : groupId
   };
   }
   factory Students.fromMap(Map<String, dynamic> map){
     return Students(
-      id: map['ID'],
-      fullName: map['FullName'], 
-      groupId: map['GroupId'],
+      id: map['id'],
+      fullName: map['fullName'], 
+      groupId: map['groupId'],
     );
   }
 }
@@ -29,19 +29,19 @@ class Groups{
   final int? id;
   final String direction;
   final String name;
-  final DateTime yaer;
+  final String yaer;
 
   Groups({this.id, required this.direction, required this.name, required this.yaer});
 
   Map<String, dynamic> toMap(){
-    return {'ID' : id, 'Direction' : direction, 'Name' : name, 'Year' : yaer};
+    return {'if' : id, 'direction' : direction, 'name' : name, 'year' : yaer};
   }
   factory Groups.fromMap(Map<String, dynamic> map){
     return Groups(
-      id: map['ID'],
-      direction: map['Direction'], 
-      name: map['Name'], 
-      yaer: map['Year']
+      id: map['id'],
+      direction: map['direction'], 
+      name: map['name'], 
+      yaer: map['year']
     );
   }
 }
@@ -54,13 +54,13 @@ class Grades{
   Grades({this.id, required this.studentID, required this.grades});
 
   Map<String, dynamic> toMap(){
-    return {'ID' : id, 'StudentID' : studentID, 'Grades' : grades};
+    return {'id' : id, 'studentId' : studentID, 'grades' : grades};
   }
   factory Grades.fromMap(Map<String, dynamic> map){
     return Grades(
-      id: map['ID'],
-      studentID: map['StudentID'], 
-      grades: map['Grades'], 
+      id: map['id'],
+      studentID: map['studentId'], 
+      grades: map['grades'], 
     );
   }
 }

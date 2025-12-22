@@ -18,7 +18,7 @@ class DBHelp{
     //_database = await initDB();
 
     String dbPath = 'E:\\project1';
-    String path = join(dbPath, 'studentManager1.db');
+    String path = join(dbPath, 'studentManager11.db');
     return await openDatabase(path, version: 1);
   }
 }

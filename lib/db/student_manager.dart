@@ -4,15 +4,15 @@ import 'package:project1/db/tables.dart';
 
 
 class StudentManager {
-  // List<Students> readStud() {
-  //   Database? db;
-  //   var stud = db!.query('students', orderBy: 'id');
-  //   List<Students> studList = stud.isNotEmpty
-  //   ? stud.map((stud) => Students.fromMap(stud)).toList()
-  //   : [];
+  Future<List<Students>> readStud() async {
+    Database? db = await DBHelp.instance.initDB();
+    List<Map<String, dynamic>> stud = await db.query('students', orderBy: 'id');
+    List<Students> studList = stud.isNotEmpty
+    ? stud.map((stud) => Students.fromMap(stud)).toList()
+    : [];
 
-  //   return studList;
-  // }
+    return studList;
+  }
   Future<int> insertStud(Students student) async {
     Database db = await DBHelp.instance.db;
     return await db.insert('students', student.toMap());

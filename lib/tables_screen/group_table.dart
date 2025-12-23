@@ -3,6 +3,9 @@ import 'package:project1/db/tables.dart';
 import 'package:project1/tables_screen/student_table.dart';
 import 'package:project1/tables_screen/grades_table.dart';
 import 'package:project1/db/group_manager.dart';
+import 'package:project1/tables_screen/crud_screen/insert_group_screen.dart';
+import 'package:project1/tables_screen/crud_screen/update_group_screen.dart';
+import 'package:project1/tables_screen/crud_screen/delete_group_screen.dart';
 
 class GroupTableScreen extends StatefulWidget {
   const GroupTableScreen({super.key});
@@ -83,103 +86,130 @@ class _GroupTableScreenState extends State<GroupTableScreen>{
       ),
       body: _isLoading
       ? Center(child: CircularProgressIndicator())
-      : Table(
-        border: TableBorder.all(width: 1.0, color:  Colors.black),
-        children: [
-          TableRow(
-            decoration: BoxDecoration(color: Colors.grey[300]),
-            children: [
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  child: Text("ID", style: TextStyle(fontSize: 24)),
-                )
-              ),
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  child: Text("Направление", style: TextStyle(fontSize: 24)),
-                )
-              ),
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  child: Text("Название", style: TextStyle(fontSize: 24)),
-                )
-              ),
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  child: Text("Год", style: TextStyle(fontSize: 24)),
-                )
-              ),
-            ]
-          ),
-          /// передача данных из таблицы
-        ...groups.map((group) => TableRow(
-            children: [
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: Text(
-                    group.id?.toString() ?? '',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ),
-              ),
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: Text(
-                    group.direction,
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ),
-              ),
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: Text(
-                    group.name,
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ),
-              ),
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: Text(
-                    group.yaer,
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ),
-              ),
-            ]
-          ))
-        ]),
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        color: Colors.blueAccent,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+      : SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Table(
+          border: TableBorder.all(width: 1.0, color:  Colors.black),
           children: [
-            IconButton(
-              onPressed: () {
-                
-              },
-              icon: Icon(Icons.add, color: Colors.white, size: 24)
+            TableRow(
+              decoration: BoxDecoration(color: Colors.grey[300]),
+              children: [
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Text("ID", style: TextStyle(fontSize: 24)),
+                  )
+                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Text("Направление", style: TextStyle(fontSize: 24)),
+                  )
+                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Text("Название", style: TextStyle(fontSize: 24)),
+                  )
+                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Text("Год", style: TextStyle(fontSize: 24)),
+                  )
+                ),
+                Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: Text("Действия", style: TextStyle(fontSize: 24)),
+                    ),
+                  )
+              ]
             ),
-            IconButton(
-              onPressed: () {} ,
-              icon: Icon(Icons.edit, color: Colors.white, size: 24)
-            ),
-            IconButton(
-              onPressed: () {} ,
-              icon: Icon(Icons.delete, color: Colors.white, size: 24)
-            ),
-          ],
-        ),
-      )
+            /// передача данных из таблицы
+          ...groups.map((group) => TableRow(
+              children: [
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: Text(
+                      group.id?.toString() ?? '',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: Text(
+                      group.direction,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: Text(
+                      group.name,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: Text(
+                      group.yaer,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                ),
+                Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      child: Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                                showUpdateDialog(context, group, () {
+                                  setState(() {
+                                    loadGroups();
+                                  });
+                                });
+                              },
+                            icon: Icon(Icons.edit),
+                          ),
+                          SizedBox(width: 8),
+                          IconButton(
+                            onPressed: () {
+                              showDeleteDialog(context, group, (){
+                                setState(() {
+                                  loadGroups();
+                                });
+                              });
+                            }, 
+                            icon: Icon(Icons.hide_source),
+                          )
+                        ],
+                      )
+                    ),
+                )
+              ]
+            ))
+          ]),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        backgroundColor: Colors.blueAccent,
+        onPressed: () {
+            showInsertDialog(context, () {
+              setState(() {
+                loadGroups();
+              });
+            });
+          },
+      ),
     );
   }
 }

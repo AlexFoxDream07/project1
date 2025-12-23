@@ -34,7 +34,7 @@ class Groups{
   Groups({this.id, required this.direction, required this.name, required this.yaer});
 
   Map<String, dynamic> toMap(){
-    return {'if' : id, 'direction' : direction, 'name' : name, 'year' : yaer};
+    return {'id' : id, 'direction' : direction, 'name' : name, 'year' : yaer};
   }
   factory Groups.fromMap(Map<String, dynamic> map){
     return Groups(

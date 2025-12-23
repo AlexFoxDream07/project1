@@ -23,7 +23,7 @@ class StudentManager {
       'students',
       student.toMap(),
       where: 'id = ?',
-      whereArgs: [student.id.toString()],
+      whereArgs: [student.id],
   );
     return rowsUpdated;
   }

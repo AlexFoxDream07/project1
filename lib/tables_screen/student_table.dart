@@ -186,6 +186,7 @@ class _StudentTableScreenState extends State<StudentTableScreen>{
           ]),
       ),
         floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
           onPressed: () {
             showInsertDialog(context, () {
               setState(() {
@@ -193,7 +194,6 @@ class _StudentTableScreenState extends State<StudentTableScreen>{
               });
             });
           },
-          child: Icon(Icons.add, color: Colors.white),
           backgroundColor: Colors.blueAccent,
         ),
     );

@@ -11,7 +11,7 @@ Future<void> showUpdateDialog (BuildContext context, Students students, VoidCall
     context: context, 
     builder: (BuildContext context){
       return AlertDialog(
-        title: Text("Редактирование студента", style: TextStyle(fontSize: 24)),
+        title: Text("Редактирование Студента", style: TextStyle(fontSize: 24)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

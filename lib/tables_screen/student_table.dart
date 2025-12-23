@@ -3,6 +3,9 @@ import 'package:project1/db/tables.dart';
 import 'package:project1/tables_screen/group_table.dart';
 import 'package:project1/tables_screen/grades_table.dart';
 import 'package:project1/db/student_manager.dart';
+import 'package:project1/tables_screen/crud_screen/insert_students_screen.dart';
+import 'package:project1/tables_screen/crud_screen/update_students_screen.dart';
+import 'package:project1/tables_screen/crud_screen/delete_students_screen.dart';
 
 class StudentTableScreen extends StatefulWidget {
   const StudentTableScreen({super.key});
@@ -17,14 +20,14 @@ class _StudentTableScreenState extends State<StudentTableScreen>{
   bool _isLoading = true;
 
   @override
-  void initState() {
+  void initState() {  
     super.initState();
     loadStudents();
   }
 
   Future<void> loadStudents() async {
     setState(() {
-      _isLoading = true; //  Начинаем загрузку
+      _isLoading = true;
     });
     List<Students> loadStudents = await studentManager.readStud();
     print(students.length);
@@ -32,8 +35,7 @@ class _StudentTableScreenState extends State<StudentTableScreen>{
       students = loadStudents;
       _isLoading = false;
     });
-
-}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,95 +86,116 @@ class _StudentTableScreenState extends State<StudentTableScreen>{
       ),
       body: _isLoading
       ? Center(child: CircularProgressIndicator())
-      : Table(
-        border: TableBorder.all(width: 1.0, color:  Colors.black),
-        children: [
-          TableRow(
-            decoration: BoxDecoration(color: Colors.grey[300]),
-            children: [
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  child: Text("ID", style: TextStyle(fontSize: 24)),
-                )
-              ),
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  child: Text("ФИО Студента", style: TextStyle(fontSize: 24)),
-                )
-              ),
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  child: Text("№ Группы", style: TextStyle(fontSize: 24)),
-                )
-              ),
-            ]
-          ),
-          /// передача данных из таблицы Students
-          ...students.map((student) => TableRow(
-            children: [
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: Text(
-                    student.id?.toString() ?? '',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-              ),
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: Text(
-                    student.fullName,
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-              ),
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: Text(
-                    student.groupId.toString(),
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-              ),
-            ]
-          ))
-        ]),
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        color: Colors.blueAccent,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+      : SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Table(
+          border: TableBorder.all(width: 1.0, color:  Colors.black),
           children: [
-            IconButton(
-              onPressed: () {
-                
-              },
-              icon: Icon(Icons.add, color: Colors.white, size: 24)
+            TableRow(
+              decoration: BoxDecoration(color: Colors.grey[300]),
+              children: [
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Text("ID", style: TextStyle(fontSize: 24)),
+                  )
+                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Text("ФИО Студента", style: TextStyle(fontSize: 24)),
+                  )
+                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Text("№ Группы", style: TextStyle(fontSize: 24)),
+                  )
+                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Text("Действия", style: TextStyle(fontSize: 24)),
+                  ),
+                )
+              ]
             ),
-            IconButton(
-              onPressed: () {} ,
-              icon: Icon(Icons.edit, color: Colors.white, size: 24)
-            ),
-            IconButton(
-              onPressed: () {} ,
-              icon: Icon(Icons.delete, color: Colors.white, size: 24)
-            ),
-          ],
-        ),
+            /// передача данных из таблицы Students
+            ...students.map((student) => TableRow(
+              children: [
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: Text(
+                      student.id?.toString() ?? '',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: Text(
+                      student.fullName,
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: Text(
+                      student.groupId.toString(),
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                              showUpdateDialog(context, student, () {
+                                setState(() {
+                                  loadStudents();
+                                });
+                              });
+                            },
+                          icon: Icon(Icons.edit),
+                        ),
+                        SizedBox(width: 8),
+                        IconButton(
+                          onPressed: () {
+                            showDeleteDialog(context, student, (){
+                              setState(() {
+                                loadStudents();
+                              });
+                            });
+                          }, 
+                          icon: Icon(Icons.hide_source),
+                        )
+                      ],
+                    )
+                  ),
+              )
+              ]
+            )
+          )
+          ]),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   child: Icon(Icons.add),
-      //   onPressed: () async {
-          
-      //     setState(() {});
-      //   }
-      // ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            showInsertDialog(context, () {
+              setState(() {
+                loadStudents();
+              });
+            });
+          },
+          child: Icon(Icons.add, color: Colors.white),
+          backgroundColor: Colors.blueAccent,
+        ),
     );
   }
 }

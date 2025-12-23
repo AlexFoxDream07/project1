@@ -3,6 +3,15 @@ import 'package:sqflite/sqflite.dart';
 import 'package:project1/db/tables.dart';
 
 class GradeManager {
+  Future<List<Grades>> readGrade() async {
+    Database? db = await DBHelp.instance.initDB();
+    List<Map<String, dynamic>> grade = await db.query('grades', orderBy: 'id');
+    List<Grades> gradeList = grade.isNotEmpty
+    ? grade.map((grade) => Grades.fromMap(grade)).toList()
+    : [];
+
+    return gradeList;
+  }
   Future<int> insertGrade(Grades grade) async {
     Database db = await DBHelp.instance.db;
     return db.insert('grades', grade.toMap());

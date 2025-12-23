@@ -19,7 +19,13 @@ class StudentManager {
   }
   Future<int> updateStud(Students student) async {
     Database db = await DBHelp.instance.db;
-    return db.update('students', student.toMap(), where: 'id = ?', whereArgs: [student.id]);
+      final int rowsUpdated = await db.update(
+      'students',
+      student.toMap(),
+      where: 'id = ?',
+      whereArgs: [student.id.toString()],
+  );
+    return rowsUpdated;
   }
   Future<int> deleteStud(Students student) async{
     Database db = await DBHelp.instance.db;

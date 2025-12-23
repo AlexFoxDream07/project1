@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:project1/db/tables.dart';
 import 'package:project1/tables_screen/student_table.dart';
 import 'package:project1/tables_screen/grades_table.dart';
+import 'package:project1/db/group_manager.dart';
 
 class GroupTableScreen extends StatefulWidget {
   const GroupTableScreen({super.key});
@@ -10,6 +12,28 @@ class GroupTableScreen extends StatefulWidget {
 }
 
 class _GroupTableScreenState extends State<GroupTableScreen>{
+  List<Groups> groups = [];
+  GroupManager groupManager = GroupManager();
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    loadGroups();
+  }
+
+  Future<void> loadGroups() async {
+    setState(() {
+      _isLoading = true;
+    });
+    List<Groups> loadGrades = await groupManager.readGroup();
+    print(groups.length);
+    setState(() {
+      groups = loadGrades;
+      _isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,40 +41,53 @@ class _GroupTableScreenState extends State<GroupTableScreen>{
         title: Text("Таблица Групп"),
       ),
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blueAccent),
-              child: Text("Таблицы", style: TextStyle(fontSize: 24))
-            ),
-            ListTile(
-              title: Text("Таблица Студентов", style: TextStyle(fontSize: 24)),
-              onTap: () {
-                Navigator.push(context, 
-                MaterialPageRoute(
-                  builder: (context) => StudentTableScreen()
-                  )
-                );
-              },
-            ),
-            ListTile(
-              title: Text("Таблица Оценок", style: TextStyle(fontSize: 24)),
-              onTap: () {
-                Navigator.push(context, 
-                MaterialPageRoute(
-                  builder: (context) => GradesTableScreen()
-                  )
-                );
-              },
-            ),
-          ],
+        child: FutureBuilder(
+          future: Future.value(true),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return CircularProgressIndicator();
+            }
+            else {
+              return ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                DrawerHeader(
+                  decoration: BoxDecoration(color: Colors.blueAccent),
+                  child: Text("Таблицы", style: TextStyle(fontSize: 24, color: Colors.white))
+                ),
+                ListTile(
+                  title: Text("Таблица Оценок", style: TextStyle(fontSize: 24)),
+                  onTap: () {
+                    Navigator.push(context, 
+                    MaterialPageRoute(
+                      builder: (context) => GradesTableScreen()
+                      )
+                    );
+                  },
+                ),
+                ListTile(
+                  title: Text("Таблица Студентов", style: TextStyle(fontSize: 24)),
+                  onTap: () {
+                    Navigator.push(context, 
+                    MaterialPageRoute(
+                      builder: (context) => StudentTableScreen()
+                      )
+                    );
+                  },
+                ),
+              ],
+            );
+            }
+          }
         ),
       ),
-      body: Table(
-        border: TableBorder(horizontalInside: BorderSide(width: 10.0)),
+      body: _isLoading
+      ? Center(child: CircularProgressIndicator())
+      : Table(
+        border: TableBorder.all(width: 1.0, color:  Colors.black),
         children: [
           TableRow(
+            decoration: BoxDecoration(color: Colors.grey[300]),
             children: [
               Center(
                 child: Padding(
@@ -67,7 +104,7 @@ class _GroupTableScreenState extends State<GroupTableScreen>{
               Center(
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 10),
-                  child: Text("Наименование группы", style: TextStyle(fontSize: 24)),
+                  child: Text("Название", style: TextStyle(fontSize: 24)),
                 )
               ),
               Center(
@@ -79,7 +116,69 @@ class _GroupTableScreenState extends State<GroupTableScreen>{
             ]
           ),
           /// передача данных из таблицы
-        ],
+        ...groups.map((group) => TableRow(
+            children: [
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: Text(
+                    group.id?.toString() ?? '',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+              ),
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: Text(
+                    group.direction,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+              ),
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: Text(
+                    group.name,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+              ),
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: Text(
+                    group.yaer,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+              ),
+            ]
+          ))
+        ]),
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        color: Colors.blueAccent,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+              onPressed: () {
+                
+              },
+              icon: Icon(Icons.add, color: Colors.white, size: 24)
+            ),
+            IconButton(
+              onPressed: () {} ,
+              icon: Icon(Icons.edit, color: Colors.white, size: 24)
+            ),
+            IconButton(
+              onPressed: () {} ,
+              icon: Icon(Icons.delete, color: Colors.white, size: 24)
+            ),
+          ],
+        ),
       )
     );
   }

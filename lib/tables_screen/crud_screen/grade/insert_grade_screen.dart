@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project1/db/tables.dart';
-import 'package:project1/db/grade_manager.dart';
+import 'package:project1/db/grades/grades.dart';
+import 'package:project1/db/grades/grade_manager.dart';
 
 Future<void> showInsertDialog(BuildContext context, VoidCallback onGradeAdded) async{
   GradeManager gradeManager = GradeManager();

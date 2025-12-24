@@ -1,6 +1,6 @@
 import 'package:project1/db/database.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:project1/db/tables.dart';
+import 'package:project1/db/groups/groups.dart';
 
 class GroupManager {
   Future<List<Groups>> readGroup() async {

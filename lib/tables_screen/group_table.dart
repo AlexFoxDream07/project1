@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:project1/db/tables.dart';
 import 'package:project1/tables_screen/student_table.dart';
 import 'package:project1/tables_screen/grades_table.dart';
-import 'package:project1/db/group_manager.dart';
+import 'package:project1/tables_screen/direction_table.dart';
+import 'package:project1/db/groups/group_manager.dart';
+import 'package:project1/db/groups/groups.dart';
 import 'package:project1/tables_screen/crud_screen/group/insert_group_screen.dart';
 import 'package:project1/tables_screen/crud_screen/group/update_group_screen.dart';
 import 'package:project1/tables_screen/crud_screen/group/delete_group_screen.dart';
@@ -74,6 +75,16 @@ class _GroupTableScreenState extends State<GroupTableScreen>{
                     Navigator.push(context, 
                     MaterialPageRoute(
                       builder: (context) => StudentTableScreen()
+                      )
+                    );
+                  },
+                ),
+                ListTile(
+                  title: Text("Таблица Направлений", style: TextStyle(fontSize: 24)),
+                  onTap: () {
+                    Navigator.push(context, 
+                    MaterialPageRoute(
+                      builder: (context) => DirectionTableScreen()
                       )
                     );
                   },

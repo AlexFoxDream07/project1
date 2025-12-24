@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:project1/db/groups/groups.dart';
-import 'package:project1/db/groups/group_manager.dart';
+import 'package:project1/db/directions/directions.dart';
+import 'package:project1/db/directions/direction_manager.dart';
 
-Future<void> showUpdateDialog (BuildContext context, Groups groups, VoidCallback onGroupUpdate) async{
-  TextEditingController nameCon = TextEditingController(text: groups.name);
-  GroupManager groupManager = GroupManager();
+Future<void> showUpdateDialog (BuildContext context, Direction directions, VoidCallback onGroupUpdate) async{
+  TextEditingController nameCon = TextEditingController(text: directions.name);
+  TextEditingController codeCon = TextEditingController(text: directions.code);
+  DirectionManager directionManager = DirectionManager();
 
   return showDialog(
     context: context, 
     builder: (BuildContext context){
       return AlertDialog(
-        title: Text("Редактирование Группы", style: TextStyle(fontSize: 24)),
+        title: Text("Редактирование Направления", style: TextStyle(fontSize: 24)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -18,6 +19,10 @@ Future<void> showUpdateDialog (BuildContext context, Groups groups, VoidCallback
               controller: nameCon,
               decoration: InputDecoration(hintText: "Новое Название"),
             ),
+            TextField(
+              controller: codeCon,
+              decoration: InputDecoration(hintText: "Новый Код"),
+            )
           ],
         ),
         actions: [
@@ -31,8 +36,9 @@ Future<void> showUpdateDialog (BuildContext context, Groups groups, VoidCallback
             child: Text("Обновить", style: TextStyle(fontSize: 18)),
             onPressed: () async {
               final name = nameCon.text;
-              Groups updateGroup = Groups(id: groups.id, directionId: groups.directionId, name: name, yaer: groups.yaer);
-              await groupManager.updateGroup(updateGroup);
+              final code = codeCon.text;
+              Direction updateDirection = Direction(id: directions.id, name: name, code: code);
+              await directionManager.updateDir(updateDirection);
               Navigator.of(context).pop();
               onGroupUpdate();
             },

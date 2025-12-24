@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:project1/db/tables.dart';
-import 'package:project1/db/grade_manager.dart';
+import 'package:project1/db/grades/grades.dart';
+import 'package:project1/db/grades/grade_manager.dart';
 
 Future<void> showUpdateDialog (BuildContext context, Grades grades, VoidCallback onGradeUpdate) async{
-  TextEditingController gradeCon = TextEditingController();
+  TextEditingController gradeCon = TextEditingController(text: grades.grades.toString());
   GradeManager gradeManager = GradeManager();
 
   return showDialog(

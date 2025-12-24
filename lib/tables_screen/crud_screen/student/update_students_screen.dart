@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project1/db/tables.dart';
-import 'package:project1/db/student_manager.dart';
+import 'package:project1/db/students/students.dart';
+import 'package:project1/db/students/student_manager.dart';
 
 Future<void> showUpdateDialog (BuildContext context, Students students, VoidCallback onStudentUpdate) async{
   TextEditingController fullNameCon = TextEditingController(text: students.fullName);

@@ -1,6 +1,6 @@
 import 'package:project1/db/database.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:project1/db/tables.dart';
+import 'package:project1/db/grades/grades.dart';
 
 class GradeManager {
   Future<List<Grades>> readGrade() async {

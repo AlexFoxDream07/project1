@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:project1/db/groups/groups.dart';
-import 'package:project1/db/groups/group_manager.dart';
+import 'package:project1/db/directions/directions.dart';
+import 'package:project1/db/directions/direction_manager.dart';
 
-Future<void> showDeleteDialog(BuildContext context, Groups groups, VoidCallback onGroupDelete) async {
-  GroupManager groupManager = GroupManager();
+Future<void> showDeleteDialog(BuildContext context, Direction directions, VoidCallback onDirectionDelete) async {
+  DirectionManager directionManager = DirectionManager();
   return showDialog(
     context: context, 
     builder: (BuildContext context){
@@ -11,8 +11,8 @@ Future<void> showDeleteDialog(BuildContext context, Groups groups, VoidCallback 
         title: Text("Удаление Группы", style: TextStyle(fontSize: 24)),
         content: Column(
           children: [
-            Text("Вы уверены что хотите удалить данную группу?"),
-            Text("Имя: ${groups.name}")
+            Text("Вы уверены что хотите удалить даннное направление?"),
+            Text("Имя: ${directions.name}")
           ],
         ),
         actions: [
@@ -25,8 +25,8 @@ Future<void> showDeleteDialog(BuildContext context, Groups groups, VoidCallback 
           TextButton(
             child: Text("Удалить", style: TextStyle(fontSize: 18)),
             onPressed: () async {
-              await groupManager.deleteGrGroup(groups);
-              onGroupDelete();
+              await directionManager.deleteGrDir(directions);
+              onDirectionDelete();
               Navigator.of(context).pop();
             },
           )

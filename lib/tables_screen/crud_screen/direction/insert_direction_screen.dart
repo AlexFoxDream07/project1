@@ -1,32 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:project1/db/groups/groups.dart';
-import 'package:project1/db/groups/group_manager.dart';
+import 'package:project1/db/directions/directions.dart';
+import 'package:project1/db/directions/direction_manager.dart';
 
 Future<void> showInsertDialog(BuildContext context, VoidCallback onGroupAdded) async{
-  TextEditingController directionCon = TextEditingController();
   TextEditingController nameCon = TextEditingController();
-  TextEditingController yaerCon = TextEditingController();
-  GroupManager groupManager = GroupManager();
+  TextEditingController codeCon = TextEditingController();
+  DirectionManager directionManager = DirectionManager();
 
   return showDialog(
     context: context,
     builder: (BuildContext context){
       return AlertDialog(
-        title: Text("Добавить новую Группу", style: TextStyle(fontSize: 24)),
+        title: Text("Добавить новое Направление", style: TextStyle(fontSize: 24)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
-              controller: directionCon,
-              decoration: InputDecoration(hintText: "№ Направления"),
-            ),
-            TextField(
               controller: nameCon,
-              decoration: InputDecoration(hintText: "Название группы"),
+              decoration: InputDecoration(hintText: "Название Направления"),
             ),
             TextField(
-              controller: yaerCon,
-              decoration: InputDecoration(hintText: "Год"),
+              controller: codeCon,
+              decoration: InputDecoration(hintText: "Код"),
             )
           ],
         ),
@@ -40,11 +35,10 @@ Future<void> showInsertDialog(BuildContext context, VoidCallback onGroupAdded) a
           TextButton(
             child: Text("Добавить", style: TextStyle(fontSize: 18)),
             onPressed: () async {
-              final directionId = int.parse(directionCon.text);
               final name = nameCon.text;
-              final year = yaerCon.text;
-              Groups groups = Groups(directionId: directionId, name: name, yaer: year);
-              await groupManager.insertGroup(groups);
+              final code = codeCon.text;
+              Direction groups = Direction(name: name, code: code);
+              await directionManager.insertDir(groups);
               Navigator.of(context).pop();
               onGroupAdded();
             },

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:project1/db/tables.dart';
 import 'package:project1/tables_screen/group_table.dart';
 import 'package:project1/tables_screen/grades_table.dart';
-import 'package:project1/db/student_manager.dart';
+import 'package:project1/tables_screen/direction_table.dart';
+import 'package:project1/db/students/student_manager.dart';
+import 'package:project1/db/students/students.dart';
+import 'package:project1/db/students/debtor.dart';
 import 'package:project1/tables_screen/crud_screen/student/insert_students_screen.dart';
 import 'package:project1/tables_screen/crud_screen/student/update_students_screen.dart';
 import 'package:project1/tables_screen/crud_screen/student/delete_students_screen.dart';
@@ -42,6 +44,14 @@ class _StudentTableScreenState extends State<StudentTableScreen>{
     return Scaffold(
       appBar: AppBar(
         title: Text("Таблица Студентов", style: TextStyle(fontSize: 24)),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.save_alt),
+            onPressed: () {
+              saveDeptorToFile(context);
+            },
+          )
+        ],
       ),
       drawer: Drawer(
         child: FutureBuilder(
@@ -74,6 +84,16 @@ class _StudentTableScreenState extends State<StudentTableScreen>{
                     Navigator.push(context, 
                     MaterialPageRoute(
                       builder: (context) => GradesTableScreen()
+                      )
+                    );
+                  },
+                ),
+                ListTile(
+                  title: Text("Таблица Направлений", style: TextStyle(fontSize: 24)),
+                  onTap: () {
+                    Navigator.push(context, 
+                    MaterialPageRoute(
+                      builder: (context) => DirectionTableScreen()
                       )
                     );
                   },
@@ -115,6 +135,12 @@ class _StudentTableScreenState extends State<StudentTableScreen>{
                 Center(
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Text("Средний балл", style: TextStyle(fontSize: 24)),
+                  )
+                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10),
                     child: Text("Действия", style: TextStyle(fontSize: 24)),
                   ),
                 )
@@ -146,6 +172,15 @@ class _StudentTableScreenState extends State<StudentTableScreen>{
                     padding: EdgeInsets.symmetric(vertical: 8),
                     child: Text(
                       student.groupId.toString(),
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: Text(
+                      student.averageGrade.toString(),
                       style: TextStyle(fontSize: 18),
                     ),
                   ),

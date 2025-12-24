@@ -1,6 +1,6 @@
 import 'package:project1/db/database.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:project1/db/tables.dart';
+import 'package:project1/db/students/students.dart';
 
 
 class StudentManager {
@@ -37,7 +37,7 @@ class StudentManager {
     final List<Map<String, dynamic>> results = await db.rawQuery('''
       SELECT id, fullName, groupId, averageGrade
       FROM students
-      WHERE averageGrade < 3
+      WHERE averageGrade <= 3
     ''');
 
     return results.map((map) => Students(

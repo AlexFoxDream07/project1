@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:project1/db/tables.dart';
-import 'package:project1/db/grade_manager.dart';
+import 'package:project1/db/grades/grades.dart';
+import 'package:project1/db/grades/grade_manager.dart';
 
-Future<void> showDeleteDialog(BuildContext context, Grades grades, VoidCallback onStudentDelete) async {
+Future<void> showDeleteDialog(BuildContext context, Grades grades, VoidCallback onGradeDelete) async {
   GradeManager gradeManager = GradeManager();
 
   return showDialog(
@@ -27,7 +27,7 @@ Future<void> showDeleteDialog(BuildContext context, Grades grades, VoidCallback 
             onPressed: () async {
               await gradeManager.deleteGrade(grades);
               await gradeManager.updateStudentAverageGrade(grades.studentID);
-              onStudentDelete();
+              onGradeDelete();
               Navigator.of(context).pop();
             },
           )

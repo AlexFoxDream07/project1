@@ -26,6 +26,7 @@ Future<void> showDeleteDialog(BuildContext context, Grades grades, VoidCallback 
             child: Text("Удалить", style: TextStyle(fontSize: 18)),
             onPressed: () async {
               await gradeManager.deleteGrade(grades);
+              await gradeManager.updateStudentAverageGrade(grades.studentID);
               onStudentDelete();
               Navigator.of(context).pop();
             },

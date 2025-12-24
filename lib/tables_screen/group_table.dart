@@ -103,7 +103,7 @@ class _GroupTableScreenState extends State<GroupTableScreen>{
                 Center(
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Text("Направление", style: TextStyle(fontSize: 24)),
+                    child: Text("№ Направления", style: TextStyle(fontSize: 24)),
                   )
                 ),
                 Center(
@@ -126,7 +126,7 @@ class _GroupTableScreenState extends State<GroupTableScreen>{
                 )
               ]
             ),
-            /// передача данных из таблицы
+            /// передача данных из таблицы Group
           ...groups.map((group) => TableRow(
               children: [
                 Center(
@@ -142,7 +142,7 @@ class _GroupTableScreenState extends State<GroupTableScreen>{
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 8),
                     child: Text(
-                      group.direction,
+                      group.directionId.toString(),
                       style: TextStyle(fontSize: 18),
                     ),
                   ),

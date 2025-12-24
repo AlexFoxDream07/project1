@@ -31,4 +31,21 @@ class StudentManager {
     Database db = await DBHelp.instance.db;
     return db.delete('students', where: 'id = ?', whereArgs: [student.id]);
   }
+  
+  Future<List<Students>> getStudentsWithLowAverageGrade() async {
+    Database? db = await DBHelp.instance.initDB();
+    final List<Map<String, dynamic>> results = await db.rawQuery('''
+      SELECT id, fullName, groupId, averageGrade
+      FROM students
+      WHERE averageGrade < 3
+    ''');
+
+    return results.map((map) => Students(
+      id: map['id'] as int,
+      fullName: map['fullName'] as String,
+      groupId: map['groupId'] as int,
+      averageGrade: map['averageGrade'] as double,
+      )
+    ).toList();
+  }
 }

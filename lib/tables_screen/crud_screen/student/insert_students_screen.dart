@@ -37,7 +37,7 @@ Future<void> showInsertDialog(BuildContext context, VoidCallback onStudentAdded)
             onPressed: () async {
               final fullName = fullNameCon.text;
               final groupId = int.parse(grIdCon.text);
-              Students students = Students(fullName: fullName, groupId: groupId);
+              Students students = Students(fullName: fullName, groupId: groupId, averageGrade: 0.0);
               await studentManager.insertStud(students);
               Navigator.of(context).pop();
               onStudentAdded();

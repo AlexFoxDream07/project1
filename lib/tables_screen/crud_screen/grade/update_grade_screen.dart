@@ -33,6 +33,7 @@ Future<void> showUpdateDialog (BuildContext context, Grades grades, VoidCallback
               final grade = int.parse(gradeCon.text);
               Grades updateGrade = Grades(id: grades.id, studentID: grades.studentID, grades: grade);
               await gradeManager.updateGrade(updateGrade);
+              await gradeManager.updateStudentAverageGrade(grades.studentID);
               Navigator.of(context).pop();
               onGradeUpdate();
             },

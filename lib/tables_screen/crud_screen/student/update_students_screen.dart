@@ -37,7 +37,7 @@ Future<void> showUpdateDialog (BuildContext context, Students students, VoidCall
             onPressed: () async {
               final fullName = fullNameCon.text;
               final groupId = int.tryParse(grIdCon.text) ?? students.groupId;
-              Students updateStudents = Students(id: students.id, fullName: fullName, groupId: groupId);
+              Students updateStudents = Students(id: students.id, fullName: fullName, groupId: groupId, averageGrade: students.averageGrade);
               await studentManager.updateStud(updateStudents);
               Navigator.of(context).pop();
               onStudentUpdate();

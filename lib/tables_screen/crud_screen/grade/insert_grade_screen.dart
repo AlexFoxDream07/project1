@@ -39,6 +39,7 @@ Future<void> showInsertDialog(BuildContext context, VoidCallback onGradeAdded) a
               final grade = int.parse(gradeCon.text);
               Grades grades = Grades(studentID: studentID, grades: grade);
               await gradeManager.insertGrade(grades);
+              await gradeManager.updateStudentAverageGrade(studentID);
               Navigator.of(context).pop();
               onGradeAdded();
             },

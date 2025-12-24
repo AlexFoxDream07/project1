@@ -2,18 +2,16 @@ class Students{
   final int? id;
   final String fullName;
   final int groupId;
+  final double averageGrade;
 
-  Students({this.id, required this.fullName, required this.groupId});
+  Students({this.id, required this.fullName, required this.groupId, required this.averageGrade});
 
-  // @override
-  // String toString() {
-  //   return ('ID : $id, Full Name: $fullName, GroupID: $groupId, Grade: $grade');
-  // }
   Map<String, dynamic> toMap(){
     return {
       'id' : id,
       'fullName' : fullName,
-      'groupId' : groupId
+      'groupId' : groupId,
+      'averageGrade' : averageGrade
   };
   }
   factory Students.fromMap(Map<String, dynamic> map){
@@ -21,25 +19,26 @@ class Students{
       id: map['id'],
       fullName: map['fullName'], 
       groupId: map['groupId'],
+      averageGrade: map['averageGrade']
     );
   }
 }
 
 class Groups{
   final int? id;
-  final String direction;
+  final int directionId;
   final String name;
   final String yaer;
 
-  Groups({this.id, required this.direction, required this.name, required this.yaer});
+  Groups({this.id, required this.directionId, required this.name, required this.yaer});
 
   Map<String, dynamic> toMap(){
-    return {'id' : id, 'direction' : direction, 'name' : name, 'year' : yaer};
+    return {'id' : id, 'directionId' : directionId, 'name' : name, 'year' : yaer};
   }
   factory Groups.fromMap(Map<String, dynamic> map){
     return Groups(
       id: map['id'],
-      direction: map['direction'], 
+      directionId: map['directionId'], 
       name: map['name'], 
       yaer: map['year']
     );
@@ -61,6 +60,25 @@ class Grades{
       id: map['id'],
       studentID: map['studentId'], 
       grades: map['grade'], 
+    );
+  }
+}
+
+class Direction{
+  final int? id;
+  final String name;
+  final int code;
+
+  Direction({this.id, required this.name, required this.code});
+
+  Map<String, dynamic> toMap(){
+    return {'id' : id, 'name' : name, 'code' : code};
+  }
+  factory Direction.fromMap(Map<String, dynamic> map){
+    return Direction(
+      id: map['id'],
+      name: map['name'], 
+      code: map['code'], 
     );
   }
 }

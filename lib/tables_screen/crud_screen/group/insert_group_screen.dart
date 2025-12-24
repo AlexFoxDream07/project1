@@ -18,7 +18,7 @@ Future<void> showInsertDialog(BuildContext context, VoidCallback onGroupAdded) a
           children: [
             TextField(
               controller: directionCon,
-              decoration: InputDecoration(hintText: "Направление"),
+              decoration: InputDecoration(hintText: "№ Направления"),
             ),
             TextField(
               controller: nameCon,
@@ -40,10 +40,10 @@ Future<void> showInsertDialog(BuildContext context, VoidCallback onGroupAdded) a
           TextButton(
             child: Text("Добавить", style: TextStyle(fontSize: 18)),
             onPressed: () async {
-              final direction = directionCon.text;
+              final directionId = int.parse(directionCon.text);
               final name = nameCon.text;
               final year = yaerCon.text;
-              Groups groups = Groups(direction: direction, name: name, yaer: year);
+              Groups groups = Groups(directionId: directionId, name: name, yaer: year);
               await groupManager.insertGroup(groups);
               Navigator.of(context).pop();
               onGroupAdded();

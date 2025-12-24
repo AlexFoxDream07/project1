@@ -3,7 +3,6 @@ import 'package:project1/db/tables.dart';
 import 'package:project1/db/group_manager.dart';
 
 Future<void> showUpdateDialog (BuildContext context, Groups groups, VoidCallback onGroupUpdate) async{
-  TextEditingController directionCon = TextEditingController();
   TextEditingController nameCon = TextEditingController();
   GroupManager groupManager = GroupManager();
 
@@ -15,10 +14,6 @@ Future<void> showUpdateDialog (BuildContext context, Groups groups, VoidCallback
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TextField(
-              controller: directionCon,
-              decoration: InputDecoration(hintText: "Новое Направление"),
-            ),
             TextField(
               controller: nameCon,
               decoration: InputDecoration(hintText: "Новое Название"),
@@ -35,9 +30,8 @@ Future<void> showUpdateDialog (BuildContext context, Groups groups, VoidCallback
           TextButton(
             child: Text("Обновить", style: TextStyle(fontSize: 18)),
             onPressed: () async {
-              final direction = directionCon.text;
               final name = nameCon.text;
-              Groups updateGroup = Groups(id: groups.id, direction: direction, name: name, yaer: groups.yaer);
+              Groups updateGroup = Groups(id: groups.id, directionId: groups.directionId, name: name, yaer: groups.yaer);
               await groupManager.updateGroup(updateGroup);
               Navigator.of(context).pop();
               onGroupUpdate();

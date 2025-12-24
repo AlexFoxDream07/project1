@@ -110,7 +110,7 @@ class _GradesTableScreenState extends State<GradesTableScreen>{
                 Center(
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Text("Оценки", style: TextStyle(fontSize: 24)),
+                    child: Text("Оценка", style: TextStyle(fontSize: 24)),
                   )
                 ),
                 Center(
@@ -121,6 +121,7 @@ class _GradesTableScreenState extends State<GradesTableScreen>{
                 )
               ]
             ),
+            /// передача данных и таблицы Grade
             ...grades.map((grade) => TableRow(
               children: [
                 Center(

@@ -3,9 +3,9 @@ import 'package:project1/db/tables.dart';
 import 'package:project1/tables_screen/student_table.dart';
 import 'package:project1/tables_screen/grades_table.dart';
 import 'package:project1/db/group_manager.dart';
-import 'package:project1/tables_screen/crud_screen/insert_group_screen.dart';
-import 'package:project1/tables_screen/crud_screen/update_group_screen.dart';
-import 'package:project1/tables_screen/crud_screen/delete_group_screen.dart';
+import 'package:project1/tables_screen/crud_screen/group/insert_group_screen.dart';
+import 'package:project1/tables_screen/crud_screen/group/update_group_screen.dart';
+import 'package:project1/tables_screen/crud_screen/group/delete_group_screen.dart';
 
 class GroupTableScreen extends StatefulWidget {
   const GroupTableScreen({super.key});
@@ -119,11 +119,11 @@ class _GroupTableScreenState extends State<GroupTableScreen>{
                   )
                 ),
                 Center(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Text("Действия", style: TextStyle(fontSize: 24)),
-                    ),
-                  )
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Text("Действия", style: TextStyle(fontSize: 24)),
+                  ),
+                )
               ]
             ),
             /// передача данных из таблицы

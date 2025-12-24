@@ -3,9 +3,9 @@ import 'package:project1/db/tables.dart';
 import 'package:project1/tables_screen/group_table.dart';
 import 'package:project1/tables_screen/grades_table.dart';
 import 'package:project1/db/student_manager.dart';
-import 'package:project1/tables_screen/crud_screen/insert_students_screen.dart';
-import 'package:project1/tables_screen/crud_screen/update_students_screen.dart';
-import 'package:project1/tables_screen/crud_screen/delete_students_screen.dart';
+import 'package:project1/tables_screen/crud_screen/student/insert_students_screen.dart';
+import 'package:project1/tables_screen/crud_screen/student/update_students_screen.dart';
+import 'package:project1/tables_screen/crud_screen/student/delete_students_screen.dart';
 
 class StudentTableScreen extends StatefulWidget {
   const StudentTableScreen({super.key});

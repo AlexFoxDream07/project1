@@ -30,17 +30,17 @@ Future<void> showUpdateDialog (BuildContext context, Groups groups, VoidCallback
           TextButton(
             child: Text("Обновить", style: TextStyle(fontSize: 18)),
             onPressed: () async {
-              final name = nameCon.text;
-              if (name.isEmpty){
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Имя не должно быть пустым", style: TextStyle(fontSize: 18)))
-                );
-              }
-              else {
+              try {
+                final name = nameCon.text;
                 Groups updateGroup = Groups(id: groups.id, directionId: groups.directionId, name: name, yaer: groups.yaer);
                 await groupManager.updateGroup(updateGroup);
                 Navigator.of(context).pop();
                 onGroupUpdate();
+              }
+              catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Имя не должно быть пустым", style: TextStyle(fontSize: 18)))
+                );
               }
             },
           )

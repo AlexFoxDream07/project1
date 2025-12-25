@@ -40,6 +40,8 @@ class _GroupTableScreenState extends State<GroupTableScreen>{
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Таблица Групп"),
@@ -100,6 +102,13 @@ class _GroupTableScreenState extends State<GroupTableScreen>{
       : SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Table(
+          columnWidths: <int, TableColumnWidth> {
+            0: IntrinsicColumnWidth(),
+            1: FixedColumnWidth(screenWidth * 0.3),
+            2: FixedColumnWidth(screenWidth * 0.2),
+            3: FixedColumnWidth(screenWidth * 0.25),
+            4: IntrinsicColumnWidth(),
+          },
           border: TableBorder.all(width: 1.0, color:  Colors.black),
           children: [
             TableRow(
@@ -107,32 +116,32 @@ class _GroupTableScreenState extends State<GroupTableScreen>{
               children: [
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Text("ID", style: TextStyle(fontSize: 24)),
+                    padding: EdgeInsets.symmetric(vertical: 3),
+                    child: Text("ID", style: TextStyle(fontSize: 16)),
                   )
                 ),
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Text("№ Направления", style: TextStyle(fontSize: 24)),
+                    padding: EdgeInsets.symmetric(vertical: 3),
+                    child: Text("№ Направления", style: TextStyle(fontSize: 16)),
                   )
                 ),
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Text("Название", style: TextStyle(fontSize: 24)),
+                    padding: EdgeInsets.symmetric(vertical: 3),
+                    child: Text("Название", style: TextStyle(fontSize: 16)),
                   )
                 ),
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Text("Год", style: TextStyle(fontSize: 24)),
+                    padding: EdgeInsets.symmetric(vertical: 3),
+                    child: Text("Год", style: TextStyle(fontSize: 16)),
                   )
                 ),
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Text("Действия", style: TextStyle(fontSize: 24)),
+                    padding: EdgeInsets.symmetric(vertical: 3),
+                    child: Text("Действия", style: TextStyle(fontSize: 16)),
                   ),
                 )
               ]
@@ -142,43 +151,43 @@ class _GroupTableScreenState extends State<GroupTableScreen>{
               children: [
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
+                    padding: EdgeInsets.symmetric(vertical: 3),
                     child: Text(
                       group.id?.toString() ?? '',
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: 16),
                     ),
                   ),
                 ),
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
+                    padding: EdgeInsets.symmetric(vertical: 3),
                     child: Text(
                       group.directionId.toString(),
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: 16),
                     ),
                   ),
                 ),
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
+                    padding: EdgeInsets.symmetric(vertical: 3),
                     child: Text(
                       group.name,
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: 16),
                     ),
                   ),
                 ),
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
+                    padding: EdgeInsets.symmetric(vertical: 3),
                     child: Text(
                       group.yaer,
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: 16),
                     ),
                   ),
                 ),
                 Center(
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8),
+                      padding: EdgeInsets.symmetric(vertical: 3),
                       child: Row(
                         children: [
                           IconButton(
@@ -189,9 +198,9 @@ class _GroupTableScreenState extends State<GroupTableScreen>{
                                   });
                                 });
                               },
-                            icon: Icon(Icons.edit),
+                            icon: Icon(Icons.edit, size: 24,),
                           ),
-                          SizedBox(width: 8),
+                          SizedBox(height: 3, width: 3),
                           IconButton(
                             onPressed: () {
                               showDeleteDialog(context, group, (){
@@ -200,7 +209,7 @@ class _GroupTableScreenState extends State<GroupTableScreen>{
                                 });
                               });
                             }, 
-                            icon: Icon(Icons.hide_source),
+                            icon: Icon(Icons.hide_source, size: 24,),
                           )
                         ],
                       )

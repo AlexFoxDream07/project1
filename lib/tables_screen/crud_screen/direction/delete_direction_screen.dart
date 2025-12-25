@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project1/db/directions/directions.dart';
 import 'package:project1/db/directions/direction_manager.dart';
 
-Future<void> showDeleteDialog(BuildContext context, Direction directions, VoidCallback onDirectionDelete) async {
+Future<void> showDeleteDialog(BuildContext context, Directions directions, VoidCallback onDirectionDelete) async {
   DirectionManager directionManager = DirectionManager();
   return showDialog(
     context: context, 

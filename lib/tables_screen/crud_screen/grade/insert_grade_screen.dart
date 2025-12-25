@@ -35,24 +35,19 @@ Future<void> showInsertDialog(BuildContext context, VoidCallback onGradeAdded) a
           TextButton(
             child: Text("Добавить", style: TextStyle(fontSize: 18)),
             onPressed: () async {
-              final studentID = int.parse(studIdCon.text);
-              final grade = int.parse(gradeCon.text);
-              if (studentID.isNaN || studentID.isNegative){
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Не коректный ввод данных", style: TextStyle(fontSize: 18)))
-                );
-              }
-              else if (grade.isNaN){
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Не коректный ввод данных", style: TextStyle(fontSize: 18)))
-                );
-              }
-              else{
+              try {
+                final studentID = int.parse(studIdCon.text);
+                final grade = int.parse(gradeCon.text);
                 Grades grades = Grades(studentID: studentID, grades: grade);
                 await gradeManager.insertGrade(grades);
                 await gradeManager.updateStudentAverageGrade(studentID);
                 Navigator.of(context).pop();
                 onGradeAdded();
+              }
+              catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Не коректный ввод данных", style: TextStyle(fontSize: 18)))
+                );
               }
             },
           ),

@@ -35,23 +35,18 @@ Future<void> showInsertDialog(BuildContext context, VoidCallback onStudentAdded)
           TextButton(
             child: Text("Добавить", style: TextStyle(fontSize: 18)),
             onPressed: () async {
-              final fullName = fullNameCon.text;
-              final groupId = int.parse(grIdCon.text);
-              if (groupId.isNaN || groupId.isNegative){
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Не коректный ввод данных", style: TextStyle(fontSize: 18)))
-                );
-              }
-              else if (fullName.isEmpty){
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Имя не должно быть пустым", style: TextStyle(fontSize: 18)))
-                );
-              } 
-              else {
+              try{
+                final groupId = int.parse(grIdCon.text);
+                final fullName = fullNameCon.text;
                 Students students = Students(fullName: fullName, groupId: groupId, averageGrade: 0.0);
                 await studentManager.insertStud(students);
                 Navigator.of(context).pop();
                 onStudentAdded();
+              }
+              catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Это поле не должно быть пустым"))
+                );
               }
             },
           ),

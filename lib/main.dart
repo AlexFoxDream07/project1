@@ -5,13 +5,11 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 //import 'package:sqflite/sqflite.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
   sqfliteFfiInit();
   databaseFactory = databaseFactoryFfi;
-
-  Database db =  await DBHelp.instance.initDB();  
-  print(db);
+  WidgetsFlutterBinding.ensureInitialized();
+  await DBHelp.instance.db;
+  await DBHelp.instance.initDB();
   runApp(const MainApp());
 }
 

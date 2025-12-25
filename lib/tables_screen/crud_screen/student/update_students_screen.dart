@@ -35,23 +35,18 @@ Future<void> showUpdateDialog (BuildContext context, Students students, VoidCall
           TextButton(
             child: Text("Обновить", style: TextStyle(fontSize: 18)),
             onPressed: () async {
-              final fullName = fullNameCon.text;
-              final groupId = int.tryParse(grIdCon.text) ?? students.groupId;
-              if (groupId.isNaN || groupId.isNegative){
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Не коректный ввод данных", style: TextStyle(fontSize: 18)))
-                );
-              }
-              else if (fullName.isEmpty){
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Имя не должно быть пустым", style: TextStyle(fontSize: 18)))
-                );
-              }
-              else {
+              try {
+                final fullName = fullNameCon.text;
+                final groupId = int.tryParse(grIdCon.text) ?? students.groupId;
                 Students updateStudents = Students(id: students.id, fullName: fullName, groupId: groupId, averageGrade: students.averageGrade);
                 await studentManager.updateStud(updateStudents);
                 Navigator.of(context).pop();
                 onStudentUpdate();
+              }
+              catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Не коректный ввод данных", style: TextStyle(fontSize: 18)))
+                );
               }
             },
           )

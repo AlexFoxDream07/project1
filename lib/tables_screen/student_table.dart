@@ -40,6 +40,8 @@ class _StudentTableScreenState extends State<StudentTableScreen>{
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Таблица Студентов", style: TextStyle(fontSize: 24)),
@@ -114,6 +116,13 @@ class _StudentTableScreenState extends State<StudentTableScreen>{
       : SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Table(
+          columnWidths: <int, TableColumnWidth> {
+            0: IntrinsicColumnWidth(),
+            1: FixedColumnWidth(screenWidth * 0.3),
+            2: FixedColumnWidth(screenWidth * 0.2),
+            3: FixedColumnWidth(screenWidth * 0.25),
+            4: IntrinsicColumnWidth(),
+          },
           border: TableBorder.all(width: 1.0, color:  Colors.black),
           children: [
             TableRow(
@@ -121,32 +130,32 @@ class _StudentTableScreenState extends State<StudentTableScreen>{
               children: [
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Text("ID", style: TextStyle(fontSize: 24)),
+                    padding: EdgeInsets.symmetric(vertical: 3),
+                    child: Text("ID", style: TextStyle(fontSize: 16)),
                   )
                 ),
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Text("ФИО Студента", style: TextStyle(fontSize: 24)),
+                    padding: EdgeInsets.symmetric(vertical: 3),
+                    child: Text("ФИО Студента", style: TextStyle(fontSize: 16)),
                   )
                 ),
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Text("№ Группы", style: TextStyle(fontSize: 24)),
+                    padding: EdgeInsets.symmetric(vertical: 3),
+                    child: Text("№ Группы", style: TextStyle(fontSize: 16)),
                   )
                 ),
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Text("Средний балл", style: TextStyle(fontSize: 24)),
+                    padding: EdgeInsets.symmetric(vertical: 3),
+                    child: Text("Средний балл", style: TextStyle(fontSize: 16)),
                   )
                 ),
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Text("Действия", style: TextStyle(fontSize: 24)),
+                    padding: EdgeInsets.symmetric(vertical: 3),
+                    child: Text("Действия", style: TextStyle(fontSize: 16)),
                   ),
                 )
               ]
@@ -156,43 +165,43 @@ class _StudentTableScreenState extends State<StudentTableScreen>{
               children: [
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
+                    padding: EdgeInsets.symmetric(vertical: 3),
                     child: Text(
                       student.id?.toString() ?? '',
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: 16),
                     ),
                   ),
                 ),
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
+                    padding: EdgeInsets.symmetric(vertical: 3),
                     child: Text(
                       student.fullName,
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: 16),
                     ),
                   ),
                 ),
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
+                    padding: EdgeInsets.symmetric(vertical: 3),
                     child: Text(
                       student.groupId.toString(),
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: 16),
                     ),
                   ),
                 ),
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
+                    padding: EdgeInsets.symmetric(vertical: 3),
                     child: Text(
                       student.averageGrade.toString(),
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: 16),
                     ),
                   ),
                 ),
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
+                    padding: EdgeInsets.symmetric(vertical: 3),
                     child: Row(
                       children: [
                         IconButton(
@@ -203,9 +212,9 @@ class _StudentTableScreenState extends State<StudentTableScreen>{
                                 });
                               });
                             },
-                          icon: Icon(Icons.edit),
+                          icon: Icon(Icons.edit, size: 24,),
                         ),
-                        SizedBox(width: 8),
+                        SizedBox(height: 3, width: 3),
                         IconButton(
                           onPressed: () {
                             showDeleteDialog(context, student, (){
@@ -214,7 +223,7 @@ class _StudentTableScreenState extends State<StudentTableScreen>{
                               });
                             });
                           }, 
-                          icon: Icon(Icons.block),
+                          icon: Icon(Icons.hide_source, size: 24,),
                         )
                       ],
                     )

@@ -41,6 +41,8 @@ class _GradesTableScreenState extends State<GradesTableScreen>{
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Таблица Оценок"),
@@ -101,6 +103,12 @@ class _GradesTableScreenState extends State<GradesTableScreen>{
       : SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Table(
+          columnWidths: <int, TableColumnWidth> {
+            0: IntrinsicColumnWidth(),
+            1: FixedColumnWidth(screenWidth * 0.3),
+            2: FixedColumnWidth(screenWidth * 0.45),
+            3: IntrinsicColumnWidth(),
+          },
           border: TableBorder.all(width: 1.0, color:  Colors.black),
           children: [
             TableRow(
@@ -108,26 +116,26 @@ class _GradesTableScreenState extends State<GradesTableScreen>{
               children: [
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Text("ID", style: TextStyle(fontSize: 24)),
+                    padding: EdgeInsets.symmetric(vertical: 3),
+                    child: Text("ID", style: TextStyle(fontSize: 16)),
                   )
                 ),
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Text("ID Студента", style: TextStyle(fontSize: 24)),
+                    padding: EdgeInsets.symmetric(vertical: 3),
+                    child: Text("ID Студента", style: TextStyle(fontSize: 16)),
                   )
                 ),
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Text("Оценка", style: TextStyle(fontSize: 24)),
+                    padding: EdgeInsets.symmetric(vertical: 3),
+                    child: Text("Оценка", style: TextStyle(fontSize: 16)),
                   )
                 ),
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Text("Действия", style: TextStyle(fontSize: 24)),
+                    padding: EdgeInsets.symmetric(vertical: 3),
+                    child: Text("Действия", style: TextStyle(fontSize: 16)),
                   ),
                 )
               ]
@@ -137,34 +145,34 @@ class _GradesTableScreenState extends State<GradesTableScreen>{
               children: [
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
+                    padding: EdgeInsets.symmetric(vertical: 3),
                     child: Text(
                       grade.id?.toString() ?? '',
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: 16),
                     ),
                   ),
                 ),
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
+                    padding: EdgeInsets.symmetric(vertical: 3),
                     child: Text(
                       grade.studentID.toString(),
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: 16),
                     ),
                   ),
                 ),
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
+                    padding: EdgeInsets.symmetric(vertical: 3),
                     child: Text(
                       grade.grades.toString(),
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: 16),
                     ),
                   ),
                 ),
                 Center(
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8),
+                      padding: EdgeInsets.symmetric(vertical: 3),
                       child: Row(
                         children: [
                           IconButton(
@@ -175,9 +183,9 @@ class _GradesTableScreenState extends State<GradesTableScreen>{
                                   });
                                 });
                               },
-                            icon: Icon(Icons.edit),
+                            icon: Icon(Icons.edit, size: 24,),
                           ),
-                          SizedBox(width: 8),
+                          SizedBox(height: 3, width: 3),
                           IconButton(
                             onPressed: () {
                               showDeleteDialog(context, grade, (){
@@ -186,7 +194,7 @@ class _GradesTableScreenState extends State<GradesTableScreen>{
                                 });
                               });
                             }, 
-                            icon: Icon(Icons.hide_source),
+                            icon: Icon(Icons.hide_source, size: 24,),
                           )
                         ],
                       )

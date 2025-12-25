@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:path_provider/path_provider.dart';
 
 class DBHelp{
   static final DBHelp instance = DBHelp._instance();
@@ -14,14 +17,75 @@ class DBHelp{
     return _database!;
   }
 
+  Future<void> createTables(Database db, int version) async {
+  try {
+    await db.execute('PRAGMA foreign_keys = ON');
+
+    await db.execute('''
+      CREATE TABLE directions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+        name TEXT NOT NULL,
+        code TEXT NOT NULL
+      )
+    ''');
+    print("Таблица Direction создана");
+
+    await db.execute('''
+      CREATE TABLE groups (
+        id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+        directionId INTEGER NOT NULL,
+        name TEXT NOT NULL,
+        year TEXT NOT NULL,
+        FOREIGN KEY (directionId) REFERENCES Direction(id)
+      )
+    ''');
+    print("Таблица Groups создана");
+
+    await db.execute('''
+      CREATE TABLE students (
+        id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+        fullName TEXT NOT NULL,
+        groupId INTEGER NOT NULL,
+        averageGrade REAL NOT NULL,
+        FOREIGN KEY (groupId) REFERENCES Groups(id)
+      )
+    ''');
+    print("Таблица Students создана");
+
+    await db.execute('''
+      CREATE TABLE grades (
+        id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+        studentId INTEGER NOT NULL,
+        grade INTEGER NOT NULL,
+        FOREIGN KEY (studentId) REFERENCES Students(id)
+      )
+    ''');
+    print("Таблица Grades создана");
+
+    print('Все таблицы успешно созданы!');
+
+  } catch (e) {
+    print('Ошибка при создании таблиц: $e');
+    rethrow;
+  }
+}
+
   Future<Database> initDB() async {
-    String dbPath = 'E:\\project1';
-    String path = join(dbPath, 'studentManager11.db');
     try {
-    _database = await openDatabase(path);
+      Directory documentsDirectory = await getApplicationDocumentsDirectory();
+      String path = join(documentsDirectory.path, "studentManager11.db");
+      print("Путь к базе данных: $path");
+      _database = await openDatabase(path, version: 3, 
+        onCreate: (Database db, int version) async {
+          print("onCreate вызывается! Версия базы данных: $version");
+          await db.execute('PRAGMA foreign_keys = ON');
+          await createTables(db, version);
+      }
+    );
+    return _database!;
     } catch (e) {
-      print('Ошибка открытия базы данных: $e');
-    } 
-    return await openDatabase(path, version: 1);
+      print('Ошибка открытия или создания базы данных: $e');
+      rethrow;
+    }
   }
 }

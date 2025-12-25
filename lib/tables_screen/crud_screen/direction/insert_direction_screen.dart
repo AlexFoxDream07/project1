@@ -35,23 +35,18 @@ Future<void> showInsertDialog(BuildContext context, VoidCallback onGroupAdded) a
           TextButton(
             child: Text("Добавить", style: TextStyle(fontSize: 18)),
             onPressed: () async {
-              final name = nameCon.text;
-              final code = codeCon.text;
-              if (name.isEmpty){
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Имя не должно быть пустым!", style: TextStyle(fontSize: 18)))
-                );
-              }
-              else if (code.isEmpty){
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Код не должен быть пустым!", style: TextStyle(fontSize: 18)))
-                );
-              }
-              else {
-                Direction groups = Direction(name: name, code: code);
+              try {
+                final name = nameCon.text;
+                final code = codeCon.text;
+                Directions groups = Directions(name: name, code: code);
                 await directionManager.insertDir(groups);
                 Navigator.of(context).pop();
                 onGroupAdded();
+              }
+              catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Поле не должно быть пустым!", style: TextStyle(fontSize: 18)))
+                );
               }
             },
           ),

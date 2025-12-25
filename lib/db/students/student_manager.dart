@@ -48,4 +48,22 @@ class StudentManager {
       )
     ).toList();
   }
+
+  Future<List<Students>> getStudentsWithLowAverageGradeSorted() async {
+  Database? db = await DBHelp.instance.initDB();
+  final List<Map<String, dynamic>> results = await db.rawQuery('''
+    SELECT id, fullName, groupId, averageGrade
+    FROM students
+    WHERE averageGrade <= 3
+    ORDER BY averageGrade ASC, fullName ASC -- Сортировка по возрастанию averageGrade, затем по fullName
+  ''');
+
+  return results.map((map) => Students(
+    id: map['id'] as int,
+    fullName: map['fullName'] as String,
+    groupId: map['groupId'] as int,
+    averageGrade: map['averageGrade'] as double,
+    )
+  ).toList();
+}
 }

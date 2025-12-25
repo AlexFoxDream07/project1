@@ -55,7 +55,7 @@ class _StudentTableScreenState extends State<StudentTableScreen>{
           IconButton(
             icon: Icon(Icons.filter_list),
             onPressed: () {
-              
+              studentManager.getStudentsWithLowAverageGradeSorted();
             },
           )
         ],

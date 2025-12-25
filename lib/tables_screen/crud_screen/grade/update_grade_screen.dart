@@ -31,11 +31,18 @@ Future<void> showUpdateDialog (BuildContext context, Grades grades, VoidCallback
             child: Text("Обновить", style: TextStyle(fontSize: 18)),
             onPressed: () async {
               final grade = int.parse(gradeCon.text);
-              Grades updateGrade = Grades(id: grades.id, studentID: grades.studentID, grades: grade);
-              await gradeManager.updateGrade(updateGrade);
-              await gradeManager.updateStudentAverageGrade(grades.studentID);
-              Navigator.of(context).pop();
-              onGradeUpdate();
+              if (grade.isNaN){
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Не коректный ввод данных", style: TextStyle(fontSize: 18)))
+                );
+              }
+              else {
+                Grades updateGrade = Grades(id: grades.id, studentID: grades.studentID, grades: grade);
+                await gradeManager.updateGrade(updateGrade);
+                await gradeManager.updateStudentAverageGrade(grades.studentID);
+                Navigator.of(context).pop();
+                onGradeUpdate();
+              }
             },
           )
         ],

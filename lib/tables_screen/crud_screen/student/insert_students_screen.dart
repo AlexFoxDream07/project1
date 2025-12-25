@@ -37,10 +37,22 @@ Future<void> showInsertDialog(BuildContext context, VoidCallback onStudentAdded)
             onPressed: () async {
               final fullName = fullNameCon.text;
               final groupId = int.parse(grIdCon.text);
-              Students students = Students(fullName: fullName, groupId: groupId, averageGrade: 0.0);
-              await studentManager.insertStud(students);
-              Navigator.of(context).pop();
-              onStudentAdded();
+              if (groupId.isNaN || groupId.isNegative){
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Не коректный ввод данных", style: TextStyle(fontSize: 18)))
+                );
+              }
+              else if (fullName.isEmpty){
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Имя не должно быть пустым", style: TextStyle(fontSize: 18)))
+                );
+              } 
+              else {
+                Students students = Students(fullName: fullName, groupId: groupId, averageGrade: 0.0);
+                await studentManager.insertStud(students);
+                Navigator.of(context).pop();
+                onStudentAdded();
+              }
             },
           ),
         ],

@@ -17,11 +17,9 @@ Future<void> showUpdateDialog (BuildContext context, Direction directions, VoidC
           children: [
             TextField(
               controller: nameCon,
-              decoration: InputDecoration(hintText: "Новое Название"),
             ),
             TextField(
               controller: codeCon,
-              decoration: InputDecoration(hintText: "Новый Код"),
             )
           ],
         ),
@@ -37,10 +35,22 @@ Future<void> showUpdateDialog (BuildContext context, Direction directions, VoidC
             onPressed: () async {
               final name = nameCon.text;
               final code = codeCon.text;
-              Direction updateDirection = Direction(id: directions.id, name: name, code: code);
-              await directionManager.updateDir(updateDirection);
-              Navigator.of(context).pop();
-              onGroupUpdate();
+              if (name.isEmpty){
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Имя не должно быть пустым!", style: TextStyle(fontSize: 18)))
+                );
+              }
+              else if (code.isEmpty){
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Код не должен быть пустым!", style: TextStyle(fontSize: 18)))
+                );
+              }
+              else{
+                Direction updateDirection = Direction(id: directions.id, name: name, code: code);
+                await directionManager.updateDir(updateDirection);
+                Navigator.of(context).pop();
+                onGroupUpdate();
+              }
             },
           )
         ],

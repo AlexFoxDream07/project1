@@ -43,10 +43,27 @@ Future<void> showInsertDialog(BuildContext context, VoidCallback onGroupAdded) a
               final directionId = int.parse(directionCon.text);
               final name = nameCon.text;
               final year = yaerCon.text;
-              Groups groups = Groups(directionId: directionId, name: name, yaer: year);
-              await groupManager.insertGroup(groups);
-              Navigator.of(context).pop();
-              onGroupAdded();
+              if (directionId.isNaN || directionId.isNegative){
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Не коректный ввод данных", style: TextStyle(fontSize: 18)))
+                );
+              }
+              else if (name.isEmpty){
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Имя не должно быть пустым", style: TextStyle(fontSize: 18)))
+                );
+              }
+              else if (year.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Год не должно быть пустым", style: TextStyle(fontSize: 18)))
+                );
+              }
+              else {
+                Groups groups = Groups(directionId: directionId, name: name, yaer: year);
+                await groupManager.insertGroup(groups);
+                Navigator.of(context).pop();
+                onGroupAdded();
+              }
             },
           ),
         ],

@@ -37,11 +37,23 @@ Future<void> showInsertDialog(BuildContext context, VoidCallback onGradeAdded) a
             onPressed: () async {
               final studentID = int.parse(studIdCon.text);
               final grade = int.parse(gradeCon.text);
-              Grades grades = Grades(studentID: studentID, grades: grade);
-              await gradeManager.insertGrade(grades);
-              await gradeManager.updateStudentAverageGrade(studentID);
-              Navigator.of(context).pop();
-              onGradeAdded();
+              if (studentID.isNaN || studentID.isNegative){
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Не коректный ввод данных", style: TextStyle(fontSize: 18)))
+                );
+              }
+              else if (grade.isNaN){
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Не коректный ввод данных", style: TextStyle(fontSize: 18)))
+                );
+              }
+              else{
+                Grades grades = Grades(studentID: studentID, grades: grade);
+                await gradeManager.insertGrade(grades);
+                await gradeManager.updateStudentAverageGrade(studentID);
+                Navigator.of(context).pop();
+                onGradeAdded();
+              }
             },
           ),
         ],

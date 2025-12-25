@@ -32,7 +32,6 @@ class _StudentTableScreenState extends State<StudentTableScreen>{
       _isLoading = true;
     });
     List<Students> loadStudents = await studentManager.readStud();
-    print(students.length);
     setState(() {
       students = loadStudents;
       _isLoading = false;
@@ -49,6 +48,12 @@ class _StudentTableScreenState extends State<StudentTableScreen>{
             icon: Icon(Icons.save_alt),
             onPressed: () {
               saveDeptorToFile(context);
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.filter_list),
+            onPressed: () {
+              
             },
           )
         ],
@@ -209,7 +214,7 @@ class _StudentTableScreenState extends State<StudentTableScreen>{
                               });
                             });
                           }, 
-                          icon: Icon(Icons.hide_source),
+                          icon: Icon(Icons.block),
                         )
                       ],
                     )

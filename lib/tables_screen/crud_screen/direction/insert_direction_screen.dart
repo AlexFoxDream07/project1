@@ -37,10 +37,22 @@ Future<void> showInsertDialog(BuildContext context, VoidCallback onGroupAdded) a
             onPressed: () async {
               final name = nameCon.text;
               final code = codeCon.text;
-              Direction groups = Direction(name: name, code: code);
-              await directionManager.insertDir(groups);
-              Navigator.of(context).pop();
-              onGroupAdded();
+              if (name.isEmpty){
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Имя не должно быть пустым!", style: TextStyle(fontSize: 18)))
+                );
+              }
+              else if (code.isEmpty){
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Код не должен быть пустым!", style: TextStyle(fontSize: 18)))
+                );
+              }
+              else {
+                Direction groups = Direction(name: name, code: code);
+                await directionManager.insertDir(groups);
+                Navigator.of(context).pop();
+                onGroupAdded();
+              }
             },
           ),
         ],

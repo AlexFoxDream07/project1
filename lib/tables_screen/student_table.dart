@@ -52,12 +52,6 @@ class _StudentTableScreenState extends State<StudentTableScreen>{
               saveDeptorToFile(context);
             },
           ),
-          IconButton(
-            icon: Icon(Icons.filter_list),
-            onPressed: () {
-              studentManager.getStudentsWithLowAverageGradeSorted();
-            },
-          )
         ],
       ),
       drawer: Drawer(

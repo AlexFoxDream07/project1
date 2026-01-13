@@ -2,7 +2,6 @@ import 'package:project1/db/database.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:project1/db/students/students.dart';
 
-
 class StudentManager {
   Future<List<Students>> readStud() async {
     Database? db = await DBHelp.instance.initDB();
@@ -30,6 +29,21 @@ class StudentManager {
   Future<int> deleteStud(Students student) async{
     Database db = await DBHelp.instance.db;
     return db.delete('students', where: 'id = ?', whereArgs: [student.id]);
+  }
+
+  Future<bool> isIDexist(int id) async {
+    Database db = await DBHelp.instance.db;
+    final List<Map<String, dynamic>> results = await db.rawQuery('''
+      SELECT id
+      FROM groups 
+    ''');
+    List<int> asd = results.map((map) => map['id'] as int).toList();
+    for (int i = 0; i < results.length; i++){
+      if (id == asd[i]){
+        return true;
+      }
+    }
+     return false;
   }
   
   Future<List<Students>> getStudentsWithLowAverageGrade() async {

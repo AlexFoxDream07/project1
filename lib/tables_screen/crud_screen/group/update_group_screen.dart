@@ -32,7 +32,7 @@ Future<void> showUpdateDialog (BuildContext context, Groups groups, VoidCallback
             onPressed: () async {
               try {
                 final name = nameCon.text;
-                Groups updateGroup = Groups(id: groups.id, directionId: groups.directionId, name: name, yaer: groups.yaer);
+                Groups updateGroup = Groups(id: groups.id, directionId: groups.directionId, name: name, year: groups.year);
                 await groupManager.updateGroup(updateGroup);
                 Navigator.of(context).pop();
                 onGroupUpdate();

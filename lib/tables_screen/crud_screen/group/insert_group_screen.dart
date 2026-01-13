@@ -40,20 +40,27 @@ Future<void> showInsertDialog(BuildContext context, VoidCallback onGroupAdded) a
           TextButton(
             child: Text("Добавить", style: TextStyle(fontSize: 18)),
             onPressed: () async {
-              try {
-                final directionId = int.parse(directionCon.text);
-                final name = nameCon.text;
-                final year = yaerCon.text;
-                Groups groups = Groups(directionId: directionId, name: name, yaer: year);
-                await groupManager.insertGroup(groups);
-                Navigator.of(context).pop();
-                onGroupAdded();
-              }
-              catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Не коректный ввод данных", style: TextStyle(fontSize: 18)))
-                );
-              }
+                try {
+                  final directionId = int.parse(directionCon.text);
+                  final name = nameCon.text;
+                  final year = yaerCon.text;
+                  Groups groups = Groups(directionId: directionId, name: name, year: year);
+                  if (await groupManager.isIDexist(directionId) == true){
+                    await groupManager.insertGroup(groups);
+                    Navigator.of(context).pop();
+                    onGroupAdded();
+                  }
+                  else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Несуществующее направление", style: TextStyle(fontSize: 18)))
+                    );
+                  }
+                }
+                catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Некорректный ввод данных", style: TextStyle(fontSize: 18)))
+                  );
+                }
             },
           ),
         ],

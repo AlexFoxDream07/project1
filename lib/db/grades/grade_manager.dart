@@ -28,6 +28,21 @@ class GradeManager {
     return db.delete('grades', where: 'id = ?', whereArgs: [grade.id]);
   }
 
+  Future<bool> isIDexist(int id) async {
+    Database db = await DBHelp.instance.db;
+    final List<Map<String, dynamic>> results = await db.rawQuery('''
+      SELECT id
+      FROM students 
+    ''');
+    List<int> asd = results.map((map) => map['id'] as int).toList();
+    for (int i = 0; i < results.length; i++){
+      if (id == asd[i]){
+        return true;
+      }
+    }
+     return false;
+  }
+
   Future<void> _updateAverageGrade(int studentId, Database db) async {
     final List<Map<String, dynamic>> result = await db.rawQuery('''
       SELECT AVG(grade) AS averageGrade

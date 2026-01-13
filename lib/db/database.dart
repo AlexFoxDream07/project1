@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -28,7 +27,6 @@ class DBHelp{
         code TEXT NOT NULL
       )
     ''');
-    print("Таблица Direction создана");
 
     await db.execute('''
       CREATE TABLE groups (
@@ -39,7 +37,6 @@ class DBHelp{
         FOREIGN KEY (directionId) REFERENCES Direction(id)
       )
     ''');
-    print("Таблица Groups создана");
 
     await db.execute('''
       CREATE TABLE students (
@@ -50,7 +47,6 @@ class DBHelp{
         FOREIGN KEY (groupId) REFERENCES Groups(id)
       )
     ''');
-    print("Таблица Students создана");
 
     await db.execute('''
       CREATE TABLE grades (
@@ -59,11 +55,7 @@ class DBHelp{
         grade INTEGER NOT NULL,
         FOREIGN KEY (studentId) REFERENCES Students(id)
       )
-    ''');
-    print("Таблица Grades создана");
-
-    print('Все таблицы успешно созданы!');
-
+    '''); 
   } catch (e) {
     print('Ошибка при создании таблиц: $e');
     rethrow;
@@ -74,10 +66,8 @@ class DBHelp{
     try {
       Directory documentsDirectory = await getApplicationDocumentsDirectory();
       String path = join(documentsDirectory.path, "studentManager11.db");
-      print("Путь к базе данных: $path");
       _database = await openDatabase(path, version: 3, 
         onCreate: (Database db, int version) async {
-          print("onCreate вызывается! Версия базы данных: $version");
           await db.execute('PRAGMA foreign_keys = ON');
           await createTables(db, version);
       }

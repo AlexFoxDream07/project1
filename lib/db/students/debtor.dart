@@ -39,7 +39,7 @@ Future<void> saveDeptorToFile(BuildContext context) async{
   }
   catch (e) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Не удалось записать данные в файл: $e')),
+      SnackBar(content: Text('Не удалось записать данные в файл')),
     );
     return;
   }

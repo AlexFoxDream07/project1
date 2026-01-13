@@ -23,4 +23,19 @@ class GroupManager {
     Database db = await DBHelp.instance.db;
     return db.delete('groups', where: 'id = ?', whereArgs: [group.id]);
   }
+
+  Future<bool> isIDexist(int id) async {
+    Database db = await DBHelp.instance.db;
+    final List<Map<String, dynamic>> results = await db.rawQuery('''
+      SELECT id
+      FROM directions 
+    ''');
+    List<int> asd = results.map((map) => map['id'] as int).toList();
+    for (int i = 0; i < results.length; i++){
+      if (id == asd[i]){
+        return true;
+      }
+    }
+     return false;
+  }
 }

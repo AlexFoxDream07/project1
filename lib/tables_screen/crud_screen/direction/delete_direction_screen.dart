@@ -4,7 +4,7 @@ import 'package:project1/db/directions/direction_manager.dart';
 
 Future<void> showDeleteDialog(BuildContext context, Directions directions, VoidCallback onDirectionDelete) async {
   DirectionManager directionManager = DirectionManager();
-  return showDialog(
+  return showDialog(    
     context: context, 
     builder: (BuildContext context){
       return AlertDialog(

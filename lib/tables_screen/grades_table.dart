@@ -32,7 +32,6 @@ class _GradesTableScreenState extends State<GradesTableScreen>{
       _isLoading = true;
     });
     List<Grades> loadGrades = await gradeManager.readGrade();
-    print(grades.length);
     setState(() {
       grades = loadGrades;
       _isLoading = false;

@@ -38,10 +38,17 @@ Future<void> showUpdateDialog (BuildContext context, Students students, VoidCall
               try {
                 final fullName = fullNameCon.text;
                 final groupId = int.tryParse(grIdCon.text) ?? students.groupId;
-                Students updateStudents = Students(id: students.id, fullName: fullName, groupId: groupId, averageGrade: students.averageGrade);
-                await studentManager.updateStud(updateStudents);
-                Navigator.of(context).pop();
-                onStudentUpdate();
+                if (await studentManager.isIDexist(groupId)){
+                  Students updateStudents = Students(id: students.id, fullName: fullName, groupId: groupId, averageGrade: students.averageGrade);
+                  await studentManager.updateStud(updateStudents);
+                  Navigator.of(context).pop();
+                  onStudentUpdate();
+                }
+                else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Несуществующая группа", style: TextStyle(fontSize: 18)))
+                    );
+                  }
               }
               catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(

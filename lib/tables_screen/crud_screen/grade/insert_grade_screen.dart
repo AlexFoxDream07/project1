@@ -36,17 +36,24 @@ Future<void> showInsertDialog(BuildContext context, VoidCallback onGradeAdded) a
             child: Text("Добавить", style: TextStyle(fontSize: 18)),
             onPressed: () async {
               try {
-                final studentID = int.parse(studIdCon.text);
-                final grade = int.parse(gradeCon.text);
-                Grades grades = Grades(studentID: studentID, grades: grade);
-                await gradeManager.insertGrade(grades);
-                await gradeManager.updateStudentAverageGrade(studentID);
-                Navigator.of(context).pop();
-                onGradeAdded();
+                  final studentID = int.parse(studIdCon.text);
+                  final grade = int.parse(gradeCon.text);
+                  Grades grades = Grades(studentID: studentID, grades: grade);
+                  if (await gradeManager.isIDexist(studentID) == true){
+                    await gradeManager.insertGrade(grades);
+                    await gradeManager.updateStudentAverageGrade(studentID);
+                    Navigator.of(context).pop();
+                    onGradeAdded();
+                  }
+                  else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Несуществующая группа", style: TextStyle(fontSize: 18)))
+                    );
+                  }
               }
               catch (e) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Не коректный ввод данных", style: TextStyle(fontSize: 18)))
+                  SnackBar(content: Text("Некорректный ввод данных", style: TextStyle(fontSize: 18)))
                 );
               }
             },

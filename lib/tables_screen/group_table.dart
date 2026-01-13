@@ -31,7 +31,6 @@ class _GroupTableScreenState extends State<GroupTableScreen>{
       _isLoading = true;
     });
     List<Groups> loadGrades = await groupManager.readGroup();
-    print(groups.length);
     setState(() {
       groups = loadGrades;
       _isLoading = false;
@@ -180,7 +179,7 @@ class _GroupTableScreenState extends State<GroupTableScreen>{
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 3),
                     child: Text(
-                      group.yaer,
+                      group.year,
                       style: TextStyle(fontSize: 16),
                     ),
                   ),

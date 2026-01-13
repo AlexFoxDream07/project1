@@ -36,16 +36,23 @@ Future<void> showInsertDialog(BuildContext context, VoidCallback onStudentAdded)
             child: Text("Добавить", style: TextStyle(fontSize: 18)),
             onPressed: () async {
               try{
-                final groupId = int.parse(grIdCon.text);
-                final fullName = fullNameCon.text;
-                Students students = Students(fullName: fullName, groupId: groupId, averageGrade: 0.0);
-                await studentManager.insertStud(students);
-                Navigator.of(context).pop();
-                onStudentAdded();
-              }
+                  final groupId = int.parse(grIdCon.text);
+                  final fullName = fullNameCon.text;
+                  Students students = Students(fullName: fullName, groupId: groupId, averageGrade: 0.0);
+                  if(await studentManager.isIDexist(groupId) == true){
+                    await studentManager.insertStud(students);
+                    Navigator.of(context).pop();
+                    onStudentAdded();
+                  }
+                  else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Несуществующая группа", style: TextStyle(fontSize: 18)))
+                    );
+                  }
+                }
               catch (e) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Это поле не должно быть пустым"))
+                  SnackBar(content: Text("Некорректный ввод данных"))
                 );
               }
             },

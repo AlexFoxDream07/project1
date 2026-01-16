@@ -37,7 +37,7 @@ Future<void> showInsertDialog(BuildContext context, VoidCallback onGroupAdded) a
             onPressed: () async {
               try {
                 final name = nameCon.text;
-                final code = codeCon.text;
+                final code = int.parse(codeCon.text);
                 Directions groups = Directions(name: name, code: code);
                 await directionManager.insertDir(groups);
                 Navigator.of(context).pop();

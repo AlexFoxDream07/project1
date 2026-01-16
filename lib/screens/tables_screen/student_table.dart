@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:project1/tables_screen/group_table.dart';
-import 'package:project1/tables_screen/grades_table.dart';
-import 'package:project1/tables_screen/direction_table.dart';
+import 'package:project1/screens/tables_screen/group_table.dart';
+import 'package:project1/screens/tables_screen/grades_table.dart';
+import 'package:project1/screens/tables_screen/direction_table.dart';
 import 'package:project1/db/students/student_manager.dart';
 import 'package:project1/db/students/students.dart';
 import 'package:project1/db/students/debtor.dart';
-import 'package:project1/tables_screen/crud_screen/student/insert_students_screen.dart';
-import 'package:project1/tables_screen/crud_screen/student/update_students_screen.dart';
-import 'package:project1/tables_screen/crud_screen/student/delete_students_screen.dart';
+import 'package:project1/screens/crud_screen/student/insert_students_screen.dart';
+import 'package:project1/screens/crud_screen/student/update_students_screen.dart';
+import 'package:project1/screens/crud_screen/student/delete_students_screen.dart';
+import 'package:project1/screens/tables_screen/exit_screen.dart';
 
 class StudentTableScreen extends StatefulWidget {
   const StudentTableScreen({super.key});
@@ -31,11 +32,20 @@ class _StudentTableScreenState extends State<StudentTableScreen>{
     setState(() {
       _isLoading = true;
     });
-    List<Students> loadStudents = await studentManager.readStud();
-    setState(() {
-      students = loadStudents;
-      _isLoading = false;
-    });
+    try {
+      List<Students> loadStudents = await studentManager.readStud();
+      setState(() {
+        students = loadStudents;
+        _isLoading = false;
+      });
+    }
+    catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Ошибка загрузки студентов")));
+        setState(() {
+          _isLoading = false;
+        });
+    }
   }
 
   @override
@@ -69,6 +79,14 @@ class _StudentTableScreenState extends State<StudentTableScreen>{
                   decoration: BoxDecoration(color: Colors.blueAccent),
                   child: Text("Таблицы", style: TextStyle(fontSize: 24, color: Colors.white))
                 ),
+                // ListView(
+                //   children: [
+                //     UserAccountsDrawerHeader (
+                //        accountName: Text('User'),
+                //        accountEmail: Text('Email')
+                //     ),
+                //   ],
+                // ),
                 ListTile(
                   title: Text("Таблица Групп", style: TextStyle(fontSize: 24)),
                   onTap: () {
@@ -99,6 +117,14 @@ class _StudentTableScreenState extends State<StudentTableScreen>{
                     );
                   },
                 ),
+                Divider(),
+                ListTile(
+                  leading: Icon(Icons.exit_to_app),
+                  title: Text('Выход из аккаунта'),
+                  onTap: () {
+                    showExitScreen(context);
+                  },
+                )
               ],
             );
             }

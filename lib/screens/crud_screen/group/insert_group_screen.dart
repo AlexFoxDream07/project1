@@ -43,19 +43,23 @@ Future<void> showInsertDialog(BuildContext context, VoidCallback onGroupAdded) a
                 try {
                   final directionId = int.parse(directionCon.text);
                   final name = nameCon.text;
-                  final year = yaerCon.text;
-                  Groups groups = Groups(directionId: directionId, name: name, year: year);
-                  if (await groupManager.isIDexist(directionId) == true){
-                    await groupManager.insertGroup(groups);
-                    Navigator.of(context).pop();
-                    onGroupAdded();
+                  final yearSt = yaerCon.text;
+                  final year = int.tryParse(yearSt);
+                  if (year != null){
+                    final dateTime = DateTime(year);
+                    Groups groups = Groups(directionId: directionId, name: name, year: dateTime);
+                    if (await groupManager.isIDexist(directionId) == true){
+                      await groupManager.insertGroup(groups);
+                      Navigator.of(context).pop();
+                      onGroupAdded();
+                    }
+                    else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Несуществующее направление", style: TextStyle(fontSize: 18)))
+                      );
+                    }
                   }
-                  else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Несуществующее направление", style: TextStyle(fontSize: 18)))
-                    );
                   }
-                }
                 catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text("Некорректный ввод данных", style: TextStyle(fontSize: 18)))

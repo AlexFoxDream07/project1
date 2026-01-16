@@ -34,7 +34,7 @@ class DBHelp{
         directionId INTEGER NOT NULL,
         name TEXT NOT NULL,
         year TEXT NOT NULL,
-        FOREIGN KEY (directionId) REFERENCES Direction(id)
+        FOREIGN KEY (directionId) REFERENCES directions(id)
       )
     ''');
 
@@ -44,7 +44,7 @@ class DBHelp{
         fullName TEXT NOT NULL,
         groupId INTEGER NOT NULL,
         averageGrade REAL NOT NULL,
-        FOREIGN KEY (groupId) REFERENCES Groups(id)
+        FOREIGN KEY (groupId) REFERENCES groups(id)
       )
     ''');
 
@@ -53,7 +53,7 @@ class DBHelp{
         id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
         studentId INTEGER NOT NULL,
         grade INTEGER NOT NULL,
-        FOREIGN KEY (studentId) REFERENCES Students(id)
+        FOREIGN KEY (studentId) REFERENCES students(id)
       )
     '''); 
   } catch (e) {
@@ -65,7 +65,7 @@ class DBHelp{
   Future<Database> initDB() async {
     try {
       Directory documentsDirectory = await getApplicationDocumentsDirectory();
-      String path = join(documentsDirectory.path, "studentManager11.db");
+      String path = join(documentsDirectory.path, "studentsMan.db");
       _database = await openDatabase(path, version: 3, 
         onCreate: (Database db, int version) async {
           await db.execute('PRAGMA foreign_keys = ON');

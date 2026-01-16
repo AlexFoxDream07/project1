@@ -4,7 +4,7 @@ import 'package:project1/db/directions/direction_manager.dart';
 
 Future<void> showUpdateDialog (BuildContext context, Directions directions, VoidCallback onGroupUpdate) async{
   TextEditingController nameCon = TextEditingController(text: directions.name);
-  TextEditingController codeCon = TextEditingController(text: directions.code);
+  TextEditingController codeCon = TextEditingController(text: directions.code.toString());
   DirectionManager directionManager = DirectionManager();
 
   return showDialog(
@@ -35,7 +35,7 @@ Future<void> showUpdateDialog (BuildContext context, Directions directions, Void
             onPressed: () async {
               try {
                 final name = nameCon.text;
-                final code = codeCon.text;
+                final code = int.parse(codeCon.text);
                 Directions updateDirection = Directions(id: directions.id, name: name, code: code);
                 await directionManager.updateDir(updateDirection);
                 Navigator.of(context).pop();

@@ -2,7 +2,7 @@ class Groups{
   final int? id;
   final int directionId;
   final String name;
-  final String year;
+  final DateTime year;
 
   Groups({this.id, required this.directionId, required this.name, required this.year});
 

@@ -1,39 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:project1/tables_screen/student_table.dart';
-import 'package:project1/tables_screen/group_table.dart';
-import 'package:project1/tables_screen/direction_table.dart';
-import 'package:project1/db/grades/grade_manager.dart';
-import 'package:project1/db/grades/grades.dart';
-import 'package:project1/tables_screen/crud_screen/grade/insert_grade_screen.dart';
-import 'package:project1/tables_screen/crud_screen/grade/update_grade_screen.dart';
-import 'package:project1/tables_screen/crud_screen/grade/delete_grade_screen.dart';
+import 'package:project1/screens/tables_screen/student_table.dart';
+import 'package:project1/screens/tables_screen/grades_table.dart';
+import 'package:project1/screens/tables_screen/group_table.dart';
+import 'package:project1/db/directions/directions.dart';
+import 'package:project1/db/directions/direction_manager.dart';
+import 'package:project1/screens/crud_screen/direction/delete_direction_screen.dart';
+import 'package:project1/screens/crud_screen/direction/insert_direction_screen.dart';
+import 'package:project1/screens/crud_screen/direction/update_direction_screen.dart';
 
-class GradesTableScreen extends StatefulWidget {
-  const GradesTableScreen({super.key});
+class DirectionTableScreen extends StatefulWidget {
+  const DirectionTableScreen({super.key});
 
   @override
-  _GradesTableScreenState createState() => _GradesTableScreenState();
+  _DirectionTableScreenState createState() => _DirectionTableScreenState();
 }
 
-class _GradesTableScreenState extends State<GradesTableScreen>{
-  List<Grades> grades = [];
-  GradeManager gradeManager = GradeManager();
+class _DirectionTableScreenState extends State<DirectionTableScreen>{
+  List<Directions> directions = [];
+  DirectionManager directionManager = DirectionManager();
   bool _isLoading = true;
-
 
   @override
   void initState() {
     super.initState();
-    loadGrades();
+    loaddirections();
   }
 
-  Future<void> loadGrades() async {
+  Future<void> loaddirections() async {
     setState(() {
       _isLoading = true;
     });
-    List<Grades> loadGrades = await gradeManager.readGrade();
+    List<Directions> loadDir = await directionManager.readDir();
     setState(() {
-      grades = loadGrades;
+      directions = loadDir;
       _isLoading = false;
     });
   }
@@ -44,7 +43,7 @@ class _GradesTableScreenState extends State<GradesTableScreen>{
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Таблица Оценок"),
+        title: Text("Таблица Направлений"),
       ),
       drawer: Drawer(
         child: FutureBuilder(
@@ -59,20 +58,25 @@ class _GradesTableScreenState extends State<GradesTableScreen>{
               children: [
                 DrawerHeader(
                   decoration: BoxDecoration(color: Colors.blueAccent),
-                  child: Text("Таблицы", style: TextStyle(fontSize: 24, color: Colors.white))
+                  child: Text("Таблицы", style: TextStyle(fontSize: 20, color: Colors.white))
+                ),
+                ListView(
+                  children: [
+                    UserAccountsDrawerHeader(accountName: Text('User'), accountEmail: Text('Email'))
+                  ],
                 ),
                 ListTile(
-                  title: Text("Таблица Групп", style: TextStyle(fontSize: 24)),
+                  title: Text("Таблица Оценок", style: TextStyle(fontSize: 20)),
                   onTap: () {
                     Navigator.push(context, 
                     MaterialPageRoute(
-                      builder: (context) => GroupTableScreen()
+                      builder: (context) => GradesTableScreen()
                       )
                     );
                   },
                 ),
                 ListTile(
-                  title: Text("Таблица Студентов", style: TextStyle(fontSize: 24)),
+                  title: Text("Таблица Студентов", style: TextStyle(fontSize: 20)),
                   onTap: () {
                     Navigator.push(context, 
                     MaterialPageRoute(
@@ -82,15 +86,23 @@ class _GradesTableScreenState extends State<GradesTableScreen>{
                   },
                 ),
                 ListTile(
-                  title: Text("Таблица Направлений", style: TextStyle(fontSize: 24)),
+                  title: Text("Таблица Групп", style: TextStyle(fontSize: 20)),
                   onTap: () {
                     Navigator.push(context, 
                     MaterialPageRoute(
-                      builder: (context) => DirectionTableScreen()
+                      builder: (context) => GroupTableScreen()
                       )
                     );
                   },
                 ),
+                Divider(),
+                ListTile(
+                  leading: Icon(Icons.exit_to_app),
+                  title: Text('Выход из аккаунта'),
+                  onTap: () {
+                    
+                  },
+                )
               ],
             );
             }
@@ -103,9 +115,8 @@ class _GradesTableScreenState extends State<GradesTableScreen>{
         scrollDirection: Axis.vertical,
         child: Table(
           columnWidths: <int, TableColumnWidth> {
-            0: IntrinsicColumnWidth(),
             1: FixedColumnWidth(screenWidth * 0.3),
-            2: FixedColumnWidth(screenWidth * 0.45),
+            2: FixedColumnWidth(screenWidth * 0.2),
             3: IntrinsicColumnWidth(),
           },
           border: TableBorder.all(width: 1.0, color:  Colors.black),
@@ -122,13 +133,13 @@ class _GradesTableScreenState extends State<GradesTableScreen>{
                 Center(
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 3),
-                    child: Text("ID Студента", style: TextStyle(fontSize: 16)),
+                    child: Text("Название", style: TextStyle(fontSize: 16)),
                   )
                 ),
                 Center(
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 3),
-                    child: Text("Оценка", style: TextStyle(fontSize: 16)),
+                    child: Text("Код", style: TextStyle(fontSize: 16)),
                   )
                 ),
                 Center(
@@ -139,14 +150,14 @@ class _GradesTableScreenState extends State<GradesTableScreen>{
                 )
               ]
             ),
-            /// передача данных и таблицы Grade
-            ...grades.map((grade) => TableRow(
+            /// передача данных из таблицы Group
+          ...directions.map((direction) => TableRow(
               children: [
                 Center(
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 3),
                     child: Text(
-                      grade.id?.toString() ?? '',
+                      direction.id?.toString() ?? '',
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
@@ -155,7 +166,7 @@ class _GradesTableScreenState extends State<GradesTableScreen>{
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 3),
                     child: Text(
-                      grade.studentID.toString(),
+                      direction.name,
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
@@ -164,7 +175,7 @@ class _GradesTableScreenState extends State<GradesTableScreen>{
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 3),
                     child: Text(
-                      grade.grades.toString(),
+                      direction.code.toString(),
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
@@ -176,9 +187,9 @@ class _GradesTableScreenState extends State<GradesTableScreen>{
                         children: [
                           IconButton(
                             onPressed: () {
-                                showUpdateDialog(context, grade, () {
+                                showUpdateDialog(context, direction, () {
                                   setState(() {
-                                    loadGrades();
+                                    loaddirections();
                                   });
                                 });
                               },
@@ -187,9 +198,9 @@ class _GradesTableScreenState extends State<GradesTableScreen>{
                           SizedBox(height: 3, width: 3),
                           IconButton(
                             onPressed: () {
-                              showDeleteDialog(context, grade, (){
+                              showDeleteDialog(context, direction, (){
                                 setState(() {
-                                  loadGrades();
+                                  loaddirections();
                                 });
                               });
                             }, 
@@ -203,13 +214,13 @@ class _GradesTableScreenState extends State<GradesTableScreen>{
             ))
           ]),
       ),
-        floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         backgroundColor: Colors.blueAccent,
         onPressed: () {
             showInsertDialog(context, () {
               setState(() {
-                loadGrades();
+                loaddirections();
               });
             });
           },

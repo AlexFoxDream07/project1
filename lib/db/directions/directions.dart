@@ -1,7 +1,7 @@
 class Directions{
   final int? id;
   final String name;
-  final String code;
+  final int code;
 
   Directions({this.id, required this.name, required this.code});
 

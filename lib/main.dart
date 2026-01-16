@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:project1/tables_screen/student_table.dart';
+import 'package:project1/identification/register.dart';
+//import 'package:project1/tables_screen/student_table.dart';
 import 'package:project1/db/database.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-//import 'package:sqflite/sqflite.dart';
+
 
 void main() async {
   sqfliteFfiInit();
@@ -20,7 +21,9 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const StudentTableScreen(),
+      home: const Register(),
     );
   }
 }
+//ch23@a.ru
+//A121234

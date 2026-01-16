@@ -1,38 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:project1/tables_screen/student_table.dart';
-import 'package:project1/tables_screen/grades_table.dart';
-import 'package:project1/tables_screen/group_table.dart';
-import 'package:project1/db/directions/directions.dart';
-import 'package:project1/db/directions/direction_manager.dart';
-import 'package:project1/tables_screen/crud_screen/direction/delete_direction_screen.dart';
-import 'package:project1/tables_screen/crud_screen/direction/insert_direction_screen.dart';
-import 'package:project1/tables_screen/crud_screen/direction/update_direction_screen.dart';
+import 'package:project1/screens/tables_screen/student_table.dart';
+import 'package:project1/screens/tables_screen/grades_table.dart';
+import 'package:project1/screens/tables_screen/direction_table.dart';
+import 'package:project1/db/groups/group_manager.dart';
+import 'package:project1/db/groups/groups.dart';
+import 'package:project1/screens/crud_screen/group/insert_group_screen.dart';
+import 'package:project1/screens/crud_screen/group/update_group_screen.dart';
+import 'package:project1/screens/crud_screen/group/delete_group_screen.dart';
 
-class DirectionTableScreen extends StatefulWidget {
-  const DirectionTableScreen({super.key});
+class GroupTableScreen extends StatefulWidget {
+  const GroupTableScreen({super.key});
 
   @override
-  _DirectionTableScreenState createState() => _DirectionTableScreenState();
+  _GroupTableScreenState createState() => _GroupTableScreenState();
 }
 
-class _DirectionTableScreenState extends State<DirectionTableScreen>{
-  List<Directions> directions = [];
-  DirectionManager directionManager = DirectionManager();
+class _GroupTableScreenState extends State<GroupTableScreen>{
+  List<Groups> groups = [];
+  GroupManager groupManager = GroupManager();
   bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    loaddirections();
+    loadGroups();
   }
 
-  Future<void> loaddirections() async {
+  Future<void> loadGroups() async {
     setState(() {
       _isLoading = true;
     });
-    List<Directions> loadDir = await directionManager.readDir();
+    List<Groups> loadGrades = await groupManager.readGroup();
     setState(() {
-      directions = loadDir;
+      groups = loadGrades;
       _isLoading = false;
     });
   }
@@ -43,7 +43,7 @@ class _DirectionTableScreenState extends State<DirectionTableScreen>{
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Таблица Направлений"),
+        title: Text("Таблица Групп"),
       ),
       drawer: Drawer(
         child: FutureBuilder(
@@ -58,10 +58,15 @@ class _DirectionTableScreenState extends State<DirectionTableScreen>{
               children: [
                 DrawerHeader(
                   decoration: BoxDecoration(color: Colors.blueAccent),
-                  child: Text("Таблицы", style: TextStyle(fontSize: 20, color: Colors.white))
+                  child: Text("Таблицы", style: TextStyle(fontSize: 24, color: Colors.white))
+                ),
+                ListView(
+                  children: [
+                    UserAccountsDrawerHeader(accountName: Text('User'), accountEmail: Text('Email'))
+                  ],
                 ),
                 ListTile(
-                  title: Text("Таблица Оценок", style: TextStyle(fontSize: 20)),
+                  title: Text("Таблица Оценок", style: TextStyle(fontSize: 24)),
                   onTap: () {
                     Navigator.push(context, 
                     MaterialPageRoute(
@@ -71,7 +76,7 @@ class _DirectionTableScreenState extends State<DirectionTableScreen>{
                   },
                 ),
                 ListTile(
-                  title: Text("Таблица Студентов", style: TextStyle(fontSize: 20)),
+                  title: Text("Таблица Студентов", style: TextStyle(fontSize: 24)),
                   onTap: () {
                     Navigator.push(context, 
                     MaterialPageRoute(
@@ -81,15 +86,23 @@ class _DirectionTableScreenState extends State<DirectionTableScreen>{
                   },
                 ),
                 ListTile(
-                  title: Text("Таблица Групп", style: TextStyle(fontSize: 20)),
+                  title: Text("Таблица Направлений", style: TextStyle(fontSize: 24)),
                   onTap: () {
                     Navigator.push(context, 
                     MaterialPageRoute(
-                      builder: (context) => GroupTableScreen()
+                      builder: (context) => DirectionTableScreen()
                       )
                     );
                   },
                 ),
+                Divider(),
+                ListTile(
+                  leading: Icon(Icons.exit_to_app),
+                  title: Text('Выход из аккаунта'),
+                  onTap: () {
+                    
+                  },
+                )
               ],
             );
             }
@@ -102,9 +115,11 @@ class _DirectionTableScreenState extends State<DirectionTableScreen>{
         scrollDirection: Axis.vertical,
         child: Table(
           columnWidths: <int, TableColumnWidth> {
+            0: IntrinsicColumnWidth(),
             1: FixedColumnWidth(screenWidth * 0.3),
             2: FixedColumnWidth(screenWidth * 0.2),
-            3: IntrinsicColumnWidth(),
+            3: FixedColumnWidth(screenWidth * 0.25),
+            4: IntrinsicColumnWidth(),
           },
           border: TableBorder.all(width: 1.0, color:  Colors.black),
           children: [
@@ -120,13 +135,19 @@ class _DirectionTableScreenState extends State<DirectionTableScreen>{
                 Center(
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 3),
+                    child: Text("№ Направления", style: TextStyle(fontSize: 16)),
+                  )
+                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 3),
                     child: Text("Название", style: TextStyle(fontSize: 16)),
                   )
                 ),
                 Center(
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 3),
-                    child: Text("Код", style: TextStyle(fontSize: 16)),
+                    child: Text("Год", style: TextStyle(fontSize: 16)),
                   )
                 ),
                 Center(
@@ -138,13 +159,13 @@ class _DirectionTableScreenState extends State<DirectionTableScreen>{
               ]
             ),
             /// передача данных из таблицы Group
-          ...directions.map((direction) => TableRow(
+          ...groups.map((group) => TableRow(
               children: [
                 Center(
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 3),
                     child: Text(
-                      direction.id?.toString() ?? '',
+                      group.id?.toString() ?? '',
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
@@ -153,7 +174,7 @@ class _DirectionTableScreenState extends State<DirectionTableScreen>{
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 3),
                     child: Text(
-                      direction.name,
+                      group.directionId.toString(),
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
@@ -162,7 +183,16 @@ class _DirectionTableScreenState extends State<DirectionTableScreen>{
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 3),
                     child: Text(
-                      direction.code.toString(),
+                      group.name,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 3),
+                    child: Text(
+                      group.year.toString(),
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
@@ -174,9 +204,9 @@ class _DirectionTableScreenState extends State<DirectionTableScreen>{
                         children: [
                           IconButton(
                             onPressed: () {
-                                showUpdateDialog(context, direction, () {
+                                showUpdateDialog(context, group, () {
                                   setState(() {
-                                    loaddirections();
+                                    loadGroups();
                                   });
                                 });
                               },
@@ -185,9 +215,9 @@ class _DirectionTableScreenState extends State<DirectionTableScreen>{
                           SizedBox(height: 3, width: 3),
                           IconButton(
                             onPressed: () {
-                              showDeleteDialog(context, direction, (){
+                              showDeleteDialog(context, group, (){
                                 setState(() {
-                                  loaddirections();
+                                  loadGroups();
                                 });
                               });
                             }, 
@@ -207,7 +237,7 @@ class _DirectionTableScreenState extends State<DirectionTableScreen>{
         onPressed: () {
             showInsertDialog(context, () {
               setState(() {
-                loaddirections();
+                loadGroups();
               });
             });
           },
